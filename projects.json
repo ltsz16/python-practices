@@ -1,0 +1,1058 @@
+[
+  {
+    "id": 1,
+    "name": "Number Guessing Game",
+    "description": "The computer picks a random number, you guess it. Learn while loops, conditionals, and the random module. Add limited attempts for a challenge.",
+    "tags": [
+      "easy"
+    ],
+    "timeEstimate": "20-30 min",
+    "skills": [
+      "loops",
+      "conditionals",
+      "random module"
+    ],
+    "libraries": []
+  },
+  {
+    "id": 2,
+    "name": "Random Password Generator",
+    "description": "Combine letters, digits, and symbols into a strong password using the random and string modules. Genuinely useful\u00e2\u20ac\u201dyou'll keep using this script.",
+    "tags": [
+      "easy"
+    ],
+    "timeEstimate": "20 min",
+    "skills": [
+      "string manipulation",
+      "randomness",
+      "functions"
+    ],
+    "libraries": [
+      "random",
+      "string"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Simple Calculator",
+    "description": "Add, subtract, multiply, divide with divide-by-zero checking. Teaches how to structure functions cleanly\u00e2\u20ac\u201dfundamentals that matter.",
+    "tags": [
+      "easy"
+    ],
+    "timeEstimate": "20-30 min",
+    "skills": [
+      "functions",
+      "conditionals",
+      "input/output"
+    ],
+    "libraries": []
+  },
+  {
+    "id": 4,
+    "name": "Rock, Paper, Scissors",
+    "description": "User picks, computer picks at random, a dictionary decides the winner. Gentle introduction to dictionaries as lookup tables instead of long if/elif chains.",
+    "tags": [
+      "easy"
+    ],
+    "timeEstimate": "25-30 min",
+    "skills": [
+      "dictionaries",
+      "loops",
+      "conditionals"
+    ],
+    "libraries": []
+  },
+  {
+    "id": 5,
+    "name": "QR Code Generator",
+    "description": "Turn any text or URL into a scannable QR code image. Favorite among beginners because it produces something visual you can show off.",
+    "tags": [
+      "easy"
+    ],
+    "timeEstimate": "30 min",
+    "skills": [
+      "libraries",
+      "file output",
+      "functions"
+    ],
+    "libraries": [
+      "qrcode"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "To-Do List in the Terminal",
+    "description": "Add, list, and remove tasks using Python lists and a command menu. Extend it by saving tasks to a file so your list survives program closure.",
+    "tags": [
+      "easy"
+    ],
+    "timeEstimate": "40 min",
+    "skills": [
+      "lists",
+      "file handling",
+      "menus"
+    ],
+    "libraries": []
+  },
+  {
+    "id": 7,
+    "name": "Bulk File Rename Tool",
+    "description": "Use os and re modules to rename batch files in a folder based on a pattern. Genuinely handy for organizing downloads, photos, or coursework.",
+    "tags": [
+      "easy"
+    ],
+    "timeEstimate": "45 min",
+    "skills": [
+      "file operations",
+      "regex",
+      "loops"
+    ],
+    "libraries": [
+      "os",
+      "re"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Snake Game",
+    "description": "Classic arcade game with Python. Learn game loops, collision detection, and event handling. Great visual project to show off.",
+    "tags": [
+      "easy",
+      "media"
+    ],
+    "timeEstimate": "1-2 hrs",
+    "skills": [
+      "game loops",
+      "graphics",
+      "event handling"
+    ],
+    "libraries": [
+      "pygame"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "PDF Merger/Splitter",
+    "description": "Combine multiple PDFs or split a single PDF into pages. Useful utility tool that demonstrates file handling and library usage.",
+    "tags": [
+      "easy",
+      "media"
+    ],
+    "timeEstimate": "45 min",
+    "skills": [
+      "file handling",
+      "libraries",
+      "functions"
+    ],
+    "libraries": [
+      "PyPDF2"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Image Resizer & Batch Processor",
+    "description": "Resize, crop, or apply filters to multiple images at once. Learn image manipulation and batch processing patterns.",
+    "tags": [
+      "easy",
+      "media"
+    ],
+    "timeEstimate": "1 hr",
+    "skills": [
+      "image processing",
+      "loops",
+      "file operations"
+    ],
+    "libraries": [
+      "Pillow"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Sudoku Solver",
+    "description": "Implement backtracking algorithm to solve Sudoku puzzles. Teaches recursive problem-solving and optimization.",
+    "tags": [
+      "intermediate"
+    ],
+    "timeEstimate": "2-3 hrs",
+    "skills": [
+      "recursion",
+      "algorithms",
+      "data structures"
+    ],
+    "libraries": []
+  },
+  {
+    "id": 12,
+    "name": "Weather App Using APIs",
+    "description": "Pull live weather data with the requests library and a free weather API. Display temperature and forecast for any city. Clear way to learn how real apps talk to external services.",
+    "tags": [
+      "intermediate"
+    ],
+    "timeEstimate": "1-2 hrs",
+    "skills": [
+      "APIs",
+      "JSON",
+      "HTTP requests"
+    ],
+    "libraries": [
+      "requests"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Automated Email Sender",
+    "description": "Send personalized emails using smtplib. Practice string formatting and understand how SMTP actually works under the hood.",
+    "tags": [
+      "intermediate"
+    ],
+    "timeEstimate": "1-2 hrs",
+    "skills": [
+      "email protocols",
+      "string formatting",
+      "file handling"
+    ],
+    "libraries": [
+      "smtplib"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Expense Tracker with File Storage",
+    "description": "Log daily expenses to CSV or JSON, calculate totals by category. Teaches file handling, data structures, and basic reporting\u00e2\u20ac\u201dcore to data-adjacent roles.",
+    "tags": [
+      "intermediate",
+      "ds"
+    ],
+    "timeEstimate": "1-2 hrs",
+    "skills": [
+      "file handling",
+      "data structures",
+      "reporting"
+    ],
+    "libraries": [
+      "csv",
+      "json"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Web Scraper for Headlines",
+    "description": "Use BeautifulSoup to pull headlines or prices from public webpages. Good entry point into data collection before analysis.",
+    "tags": [
+      "intermediate"
+    ],
+    "timeEstimate": "1-3 hrs",
+    "skills": [
+      "HTML parsing",
+      "web scraping",
+      "APIs"
+    ],
+    "libraries": [
+      "BeautifulSoup4",
+      "requests"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Grocery/Inventory Management System",
+    "description": "Track products, stock, and simple billing using dictionaries or SQLite. Demonstrates end-to-end thinking\u00e2\u20ac\u201dshows up constantly in placement portfolios.",
+    "tags": [
+      "intermediate"
+    ],
+    "timeEstimate": "2-3 hrs",
+    "skills": [
+      "databases",
+      "CRUD operations",
+      "data structures"
+    ],
+    "libraries": [
+      "sqlite3"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Discussion Board App (Flask Basics)",
+    "description": "Build a forum where users can post and reply using Flask for routing and a simple database. First real taste of backend web development.",
+    "tags": [
+      "intermediate"
+    ],
+    "timeEstimate": "3-5 hrs",
+    "skills": [
+      "Flask",
+      "databases",
+      "web development"
+    ],
+    "libraries": [
+      "Flask",
+      "sqlite3"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Personal Records Manager",
+    "description": "CLI or GUI tool to store and search personal records (certificates, notes, health logs). Practice file handling and search/filter logic.",
+    "tags": [
+      "intermediate"
+    ],
+    "timeEstimate": "2-3 hrs",
+    "skills": [
+      "file handling",
+      "search algorithms",
+      "CLI/GUI"
+    ],
+    "libraries": [
+      "tkinter",
+      "json"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Stock Market Price Tracker",
+    "description": "Fetch stock prices from an API, track changes, and generate simple reports. Learn data handling and real-time data streams.",
+    "tags": [
+      "intermediate",
+      "ds"
+    ],
+    "timeEstimate": "2-3 hrs",
+    "skills": [
+      "APIs",
+      "data analysis",
+      "file storage"
+    ],
+    "libraries": [
+      "requests",
+      "pandas"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Data Visualization Dashboard",
+    "description": "Create charts and dashboards from CSV/JSON data using matplotlib or Plotly. Essential skill for data roles.",
+    "tags": [
+      "intermediate",
+      "ds"
+    ],
+    "timeEstimate": "2-4 hrs",
+    "skills": [
+      "data visualization",
+      "data analysis",
+      "libraries"
+    ],
+    "libraries": [
+      "matplotlib",
+      "plotly",
+      "pandas"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Audio File Converter",
+    "description": "Convert between audio formats (MP3, WAV, FLAC). Learn multimedia file handling and external tool integration.",
+    "tags": [
+      "intermediate",
+      "media"
+    ],
+    "timeEstimate": "1-2 hrs",
+    "skills": [
+      "audio processing",
+      "file operations",
+      "subprocess"
+    ],
+    "libraries": [
+      "pydub",
+      "ffmpeg"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Video Downloader",
+    "description": "Download videos from YouTube or other sites using yt-dlp. Learn command-line tool integration and video handling.",
+    "tags": [
+      "intermediate",
+      "media"
+    ],
+    "timeEstimate": "1-2 hrs",
+    "skills": [
+      "subprocess",
+      "APIs",
+      "file operations"
+    ],
+    "libraries": [
+      "yt-dlp"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "AI-Powered Chatbot Using an LLM API",
+    "description": "Build a simple chatbot that calls an AI API (OpenAI, Anthropic). Learn API authentication, prompt structuring, and conversation state\u00e2\u20ac\u201dincreasingly expected skills.",
+    "tags": [
+      "advanced",
+      "ml"
+    ],
+    "timeEstimate": "2-4 hrs",
+    "skills": [
+      "APIs",
+      "LLMs",
+      "prompt engineering"
+    ],
+    "libraries": [
+      "openai",
+      "anthropic"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Resume/Document Summarizer",
+    "description": "Feed in a PDF or text file and generate a summary using an NLP library or AI API. Genuinely practical tool students use on their coursework.",
+    "tags": [
+      "advanced",
+      "ml"
+    ],
+    "timeEstimate": "2-3 hrs",
+    "skills": [
+      "NLP",
+      "PDF parsing",
+      "APIs"
+    ],
+    "libraries": [
+      "PyPDF2",
+      "transformers",
+      "openai"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Face Recognition Attendance Tool",
+    "description": "Use OpenCV and face recognition library to mark attendance from a webcam. Technically demanding but the learning payoff (computer vision fundamentals) is significant.",
+    "tags": [
+      "advanced",
+      "mhi"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "computer vision",
+      "face detection",
+      "databases"
+    ],
+    "libraries": [
+      "OpenCV",
+      "face_recognition"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Voice-Controlled Virtual Assistant",
+    "description": "Combine speech_recognition and pyttsx3 to build a Siri-style assistant. Answer commands, check time, search the web.",
+    "tags": [
+      "advanced",
+      "mhi"
+    ],
+    "timeEstimate": "3-5 hrs",
+    "skills": [
+      "speech recognition",
+      "text-to-speech",
+      "voice processing"
+    ],
+    "libraries": [
+      "speech_recognition",
+      "pyttsx3"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "AI Image Classifier",
+    "description": "Train or use a pretrained model to classify images. Tell real photos apart from AI-generated ones\u00e2\u20ac\u201dtimely and relevant for 2026's media landscape.",
+    "tags": [
+      "advanced",
+      "ml",
+      "media"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "deep learning",
+      "image classification",
+      "TensorFlow"
+    ],
+    "libraries": [
+      "TensorFlow",
+      "Keras",
+      "OpenCV"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Automated Market/News Research Tool",
+    "description": "Scrape sources, summarize trends with an AI API, output a brief. Mirrors how research and analyst teams work today.",
+    "tags": [
+      "advanced",
+      "ml",
+      "ds"
+    ],
+    "timeEstimate": "3-5 hrs",
+    "skills": [
+      "web scraping",
+      "NLP",
+      "data aggregation"
+    ],
+    "libraries": [
+      "BeautifulSoup4",
+      "openai",
+      "requests"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Sentiment Analysis Tool",
+    "description": "Analyze sentiment of text or tweets using machine learning. Classify text as positive, negative, or neutral.",
+    "tags": [
+      "advanced",
+      "ml",
+      "ds"
+    ],
+    "timeEstimate": "2-4 hrs",
+    "skills": [
+      "NLP",
+      "text classification",
+      "machine learning"
+    ],
+    "libraries": [
+      "transformers",
+      "sklearn",
+      "nltk"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Music Recommendation Engine",
+    "description": "Build a system that recommends songs based on user preferences. Learn collaborative filtering and content-based filtering techniques.",
+    "tags": [
+      "advanced",
+      "ml",
+      "ds",
+      "media"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "recommendation systems",
+      "ML algorithms",
+      "data analysis"
+    ],
+    "libraries": [
+      "scikit-learn",
+      "pandas",
+      "numpy"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Raspberry Pi LED Controller",
+    "description": "Control LEDs on a Raspberry Pi using Python GPIO. Build circuits and write code that interacts with hardware.",
+    "tags": [
+      "intermediate",
+      "mc"
+    ],
+    "timeEstimate": "2-3 hrs",
+    "skills": [
+      "GPIO",
+      "hardware control",
+      "circuits"
+    ],
+    "libraries": [
+      "RPi.GPIO",
+      "gpiozero"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Smart Plant Watering System",
+    "description": "Build an IoT system that monitors soil moisture and waters plants automatically. Combine sensors, microcontrollers, and cloud logging.",
+    "tags": [
+      "intermediate",
+      "mc",
+      "mhi"
+    ],
+    "timeEstimate": "3-5 hrs",
+    "skills": [
+      "IoT",
+      "sensors",
+      "automation",
+      "cloud APIs"
+    ],
+    "libraries": [
+      "RPi.GPIO",
+      "MQTT",
+      "requests"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Real-Time Data Pipeline",
+    "description": "Build a system to ingest, process, and store real-time data from multiple sources. Learn stream processing fundamentals.",
+    "tags": [
+      "advanced",
+      "ds"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "data pipelines",
+      "streaming",
+      "databases"
+    ],
+    "libraries": [
+      "Apache Kafka",
+      "pandas",
+      "database drivers"
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Machine Learning Model Training Pipeline",
+    "description": "Build an end-to-end pipeline: data collection, cleaning, feature engineering, model training, evaluation. Deploy a model prediction service.",
+    "tags": [
+      "advanced",
+      "ml",
+      "ds"
+    ],
+    "timeEstimate": "6-8 hrs",
+    "skills": [
+      "ML workflows",
+      "feature engineering",
+      "model deployment"
+    ],
+    "libraries": [
+      "scikit-learn",
+      "pandas",
+      "numpy",
+      "Flask"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Twitter/X Sentiment Analysis Bot",
+    "description": "Fetch tweets, analyze sentiment, visualize trends over time. Combine API usage, NLP, and data visualization.",
+    "tags": [
+      "advanced",
+      "ml",
+      "ds",
+      "mhi"
+    ],
+    "timeEstimate": "3-5 hrs",
+    "skills": [
+      "APIs",
+      "NLP",
+      "data visualization",
+      "real-time data"
+    ],
+    "libraries": [
+      "tweepy",
+      "transformers",
+      "matplotlib"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "CSV Data Explorer",
+    "description": "Interactive tool to load, inspect, and analyze CSV files. Display summaries, basic statistics, and data types for any dataset.",
+    "tags": [
+      "easy",
+      "ds"
+    ],
+    "timeEstimate": "45 min",
+    "skills": [
+      "file handling",
+      "data structures",
+      "basic statistics"
+    ],
+    "libraries": [
+      "pandas",
+      "csv"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Basic Statistics Calculator",
+    "description": "Build a tool to calculate mean, median, mode, standard deviation, and visualize distributions from user data.",
+    "tags": [
+      "easy",
+      "ds"
+    ],
+    "timeEstimate": "1 hr",
+    "skills": [
+      "statistics",
+      "data analysis",
+      "mathematics"
+    ],
+    "libraries": [
+      "numpy",
+      "statistics"
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Simple Data Cleaning Utility",
+    "description": "Handle missing values, remove duplicates, and normalize data in CSV files. Learn essential data preprocessing skills.",
+    "tags": [
+      "easy",
+      "ds"
+    ],
+    "timeEstimate": "1 hr",
+    "skills": [
+      "data cleaning",
+      "pandas operations",
+      "file handling"
+    ],
+    "libraries": [
+      "pandas"
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Customer Segmentation Analysis",
+    "description": "Use clustering algorithms to segment customers by purchasing behavior. Learn K-means and interpret results.",
+    "tags": [
+      "intermediate",
+      "ds",
+      "ml"
+    ],
+    "timeEstimate": "3-4 hrs",
+    "skills": [
+      "clustering",
+      "data analysis",
+      "ML algorithms"
+    ],
+    "libraries": [
+      "scikit-learn",
+      "pandas",
+      "matplotlib"
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Exploratory Data Analysis Dashboard",
+    "description": "Build interactive dashboard showing data distributions, correlations, and outliers. Combine Plotly or Streamlit for visualization.",
+    "tags": [
+      "intermediate",
+      "ds"
+    ],
+    "timeEstimate": "3-5 hrs",
+    "skills": [
+      "data visualization",
+      "exploratory analysis",
+      "dashboarding"
+    ],
+    "libraries": [
+      "Streamlit",
+      "Plotly",
+      "pandas"
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Neural Network from Scratch",
+    "description": "Implement a feedforward neural network using only NumPy. Learn backpropagation and gradient descent fundamentals.",
+    "tags": [
+      "advanced",
+      "ml"
+    ],
+    "timeEstimate": "6-8 hrs",
+    "skills": [
+      "neural networks",
+      "linear algebra",
+      "optimization"
+    ],
+    "libraries": [
+      "numpy"
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Text Classification with Transfer Learning",
+    "description": "Use pretrained language models (BERT, GPT) to classify text documents or reviews. Learn transfer learning techniques.",
+    "tags": [
+      "advanced",
+      "ml"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "NLP",
+      "transfer learning",
+      "transformers"
+    ],
+    "libraries": [
+      "transformers",
+      "torch",
+      "scikit-learn"
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Time Series Forecasting",
+    "description": "Build models to predict future values using ARIMA or LSTM. Learn temporal data patterns and evaluation metrics.",
+    "tags": [
+      "advanced",
+      "ml",
+      "ds"
+    ],
+    "timeEstimate": "5-7 hrs",
+    "skills": [
+      "time series analysis",
+      "LSTM",
+      "forecasting"
+    ],
+    "libraries": [
+      "pandas",
+      "statsmodels",
+      "TensorFlow"
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Object Detection with YOLO",
+    "description": "Use YOLO to detect objects in images and videos. Build real-time detection applications with computer vision.",
+    "tags": [
+      "advanced",
+      "ml",
+      "media"
+    ],
+    "timeEstimate": "5-7 hrs",
+    "skills": [
+      "computer vision",
+      "object detection",
+      "deep learning"
+    ],
+    "libraries": [
+      "YOLOv5",
+      "OpenCV",
+      "torch"
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Collaborative Filtering Recommendation System",
+    "description": "Build a recommendation engine using user-item collaborative filtering. Predict ratings and suggest products.",
+    "tags": [
+      "advanced",
+      "ml",
+      "ds"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "recommendation systems",
+      "matrix factorization",
+      "ML"
+    ],
+    "libraries": [
+      "scikit-learn",
+      "pandas",
+      "numpy"
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Weather Station with Sensors",
+    "description": "Build a Raspberry Pi weather station that collects temperature, humidity, and pressure data. Log to a database.",
+    "tags": [
+      "intermediate",
+      "mc"
+    ],
+    "timeEstimate": "3-4 hrs",
+    "skills": [
+      "sensors",
+      "GPIO",
+      "data logging"
+    ],
+    "libraries": [
+      "RPi.GPIO",
+      "sqlite3",
+      "DHT"
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Home Automation System",
+    "description": "Control lights, appliances, and fans via web interface or voice commands. Learn IoT integration and automation.",
+    "tags": [
+      "intermediate",
+      "mc",
+      "mhi"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "IoT",
+      "relay control",
+      "web APIs",
+      "automation"
+    ],
+    "libraries": [
+      "Flask",
+      "RPi.GPIO",
+      "MQTT"
+    ]
+  },
+  {
+    "id": 48,
+    "name": "RFID Door Lock System",
+    "description": "Build an RFID-based access control system with Raspberry Pi. Log access attempts and control a door lock mechanism.",
+    "tags": [
+      "intermediate",
+      "mc"
+    ],
+    "timeEstimate": "3-5 hrs",
+    "skills": [
+      "RFID",
+      "GPIO",
+      "access control",
+      "databases"
+    ],
+    "libraries": [
+      "RPi.GPIO",
+      "sqlite3",
+      "serial"
+    ]
+  },
+  {
+    "id": 49,
+    "name": "IoT Temperature & Humidity Monitor",
+    "description": "Monitor real-time temperature and humidity with cloud syncing. Send data to cloud storage and create alerts.",
+    "tags": [
+      "intermediate",
+      "mc"
+    ],
+    "timeEstimate": "3-4 hrs",
+    "skills": [
+      "IoT",
+      "sensors",
+      "cloud APIs",
+      "data logging"
+    ],
+    "libraries": [
+      "RPi.GPIO",
+      "requests",
+      "sqlite3"
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Drone Flight Controller Simulator",
+    "description": "Simulate drone flight physics and control systems. Learn PID controllers and flight dynamics.",
+    "tags": [
+      "advanced",
+      "mc"
+    ],
+    "timeEstimate": "6-8 hrs",
+    "skills": [
+      "physics simulation",
+      "PID controllers",
+      "control systems"
+    ],
+    "libraries": [
+      "pygame",
+      "numpy",
+      "matplotlib"
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Real-time Language Translator",
+    "description": "Build a real-time speech-to-speech translator using speech recognition and neural machine translation APIs.",
+    "tags": [
+      "advanced",
+      "mhi",
+      "ml"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "speech processing",
+      "NLP",
+      "APIs",
+      "translation models"
+    ],
+    "libraries": [
+      "speech_recognition",
+      "pyttsx3",
+      "transformers"
+    ]
+  },
+  {
+    "id": 52,
+    "name": "Emotion Recognition from Images",
+    "description": "Detect emotions (happy, sad, angry, etc.) from face images. Build a real-time emotion detection webcam app.",
+    "tags": [
+      "advanced",
+      "mhi",
+      "ml"
+    ],
+    "timeEstimate": "4-6 hrs",
+    "skills": [
+      "computer vision",
+      "facial analysis",
+      "deep learning"
+    ],
+    "libraries": [
+      "OpenCV",
+      "TensorFlow",
+      "fer"
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Gesture Recognition System",
+    "description": "Recognize hand gestures from webcam for control or interaction. Build a gesture-based interface.",
+    "tags": [
+      "advanced",
+      "mhi"
+    ],
+    "timeEstimate": "5-7 hrs",
+    "skills": [
+      "computer vision",
+      "gesture detection",
+      "hand tracking"
+    ],
+    "libraries": [
+      "OpenCV",
+      "MediaPipe",
+      "numpy"
+    ]
+  },
+  {
+    "id": 54,
+    "name": "Sign Language Interpreter",
+    "description": "Detect and interpret sign language gestures in real-time using computer vision. Translate to text and speech.",
+    "tags": [
+      "advanced",
+      "mhi",
+      "ml"
+    ],
+    "timeEstimate": "6-8 hrs",
+    "skills": [
+      "computer vision",
+      "ML classification",
+      "sign language"
+    ],
+    "libraries": [
+      "OpenCV",
+      "TensorFlow",
+      "MediaPipe",
+      "pyttsx3"
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Real-time Transcription App",
+    "description": "Convert speech to text in real-time. Build an app that transcribes conversations or lectures as they happen.",
+    "tags": [
+      "intermediate",
+      "mhi"
+    ],
+    "timeEstimate": "2-3 hrs",
+    "skills": [
+      "speech recognition",
+      "audio processing",
+      "real-time"
+    ],
+    "libraries": [
+      "speech_recognition",
+      "pyaudio"
+    ]
+  }
+]

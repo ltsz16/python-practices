@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Project Picker | Learn by Building</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .legend {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .legend-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.85em;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .legend-text h3 {
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .legend-text p {
+            font-size: 0.85em;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .tag-selection {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .tag-group {
+            margin-bottom: 25px;
+        }
+
+        .tag-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .tag-group h3 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tag-checkbox {
+            display: none;
+        }
+
+        .tag-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .tag-label:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .tag-checkbox:checked + .tag-label {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .reveal-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .reveal-button {
+            padding: 16px 48px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .reveal-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .reveal-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .project-display {
+            margin-top: 40px;
+            min-height: 200px;
+            display: none;
+        }
+
+        .project-display.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .project-card h3 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .time-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .tags-display {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .tag-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .project-description {
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+
+        .project-skills {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .project-skills h4 {
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .libraries-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .library-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .no-projects-message {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .reset-button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background: #764ba2;
+        }
+
+        .library-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .library-toggle input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .library-toggle label {
+            cursor: pointer;
+            font-weight: 500;
+            color: #333;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .legend-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .project-card h3 {
+                font-size: 1.5em;
+            }
+
+            .tag-label {
+                padding: 8px 14px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐍 Python Project Picker</h1>
+            <p>Pick your learning path and discover your next project!</p>
+        </div>
+
+        <div class="content">
+            <!-- Legend Section -->
+            <div class="section">
+                <h2>📚 Learning Categories</h2>
+                <div class="legend">
+                    <div class="legend-grid">
+                        <div class="legend-item">
+                            <div class="legend-icon">🟢</div>
+                            <div class="legend-text">
+                                <h3>Easy</h3>
+                                <p>20-60 minutes, perfect for beginners</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon">🟡</div>
+                            <div class="legend-text">
+                                <h3>Intermediate</h3>
+                                <p>1-5 hours, introduces libraries & APIs</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon">🔴</div>
+                            <div class="legend-text">
+                                <h3>Advanced</h3>
+                                <p>4-8 hours, combines Python with AI/ML</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon">🤖</div>
+                            <div class="legend-text">
+                                <h3>ML</h3>
+                                <p>Machine Learning & AI projects</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon">📊</div>
+                            <div class="legend-text">
+                                <h3>DS</h3>
+                                <p>Data Science & analysis projects</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon">🎤</div>
+                            <div class="legend-text">
+                                <h3>MHI</h3>
+                                <p>Machine-Human Interaction (TTS, speech, etc.)</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon">🎬</div>
+                            <div class="legend-text">
+                                <h3>Media</h3>
+                                <p>Video, audio, images, and games</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-icon">⚙️</div>
+                            <div class="legend-text">
+                                <h3>MC</h3>
+                                <p>Microcontroller & IoT projects</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Selection Section -->
+            <div class="section">
+                <h2>✨ Select Your Tags</h2>
+                <div class="tag-selection">
+                    <!-- Difficulty Group -->
+                    <div class="tag-group">
+                        <h3>Difficulty Level</h3>
+                        <div class="tags-container">
+                            <input type="checkbox" id="easy" class="tag-checkbox" value="easy">
+                            <label for="easy" class="tag-label">Easy 🟢</label>
+
+                            <input type="checkbox" id="intermediate" class="tag-checkbox" value="intermediate">
+                            <label for="intermediate" class="tag-label">Intermediate 🟡</label>
+
+                            <input type="checkbox" id="advanced" class="tag-checkbox" value="advanced">
+                            <label for="advanced" class="tag-label">Advanced 🔴</label>
+                        </div>
+                    </div>
+
+                    <!-- Domain Group -->
+                    <div class="tag-group">
+                        <h3>Optional Domains</h3>
+                        <div class="tags-container">
+                            <input type="checkbox" id="ml" class="tag-checkbox" value="ml">
+                            <label for="ml" class="tag-label">ML 🤖</label>
+
+                            <input type="checkbox" id="ds" class="tag-checkbox" value="ds">
+                            <label for="ds" class="tag-label">Data Science 📊</label>
+
+                            <input type="checkbox" id="mhi" class="tag-checkbox" value="mhi">
+                            <label for="mhi" class="tag-label">MHI 🎤</label>
+
+                            <input type="checkbox" id="media" class="tag-checkbox" value="media">
+                            <label for="media" class="tag-label">Media 🎬</label>
+
+                            <input type="checkbox" id="mc" class="tag-checkbox" value="mc">
+                            <label for="mc" class="tag-label">Microcontroller ⚙️</label>
+                        </div>
+                    </div>
+
+                    <div class="reveal-button-container">
+                        <button class="reveal-button" id="revealBtn" disabled>🎯 Reveal Project</button>
+                    </div>
+
+                    <div class="library-toggle">
+                        <input type="checkbox" id="libraryCheckbox" checked>
+                        <label for="libraryCheckbox">Show libraries</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Display Section -->
+            <div class="project-display" id="projectDisplay">
+                <div class="project-card" id="projectCard"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allProjects = [];
+        let showLibraries = true;
+        let currentProject = null;
+
+        // Load projects from JSON
+        async function loadProjects() {
+            try {
+                const response = await fetch('projects.json');
+                allProjects = await response.json();
+                console.log('Projects loaded:', allProjects.length);
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                alert('Failed to load projects. Please check if projects.json exists.');
+            }
+        }
+
+        // Get all selected tags
+        function getSelectedTags() {
+            const checkboxes = document.querySelectorAll('.tag-checkbox:checked');
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        // Filter projects by selected tags
+        function filterProjectsByTags(tags) {
+            if (tags.length === 0) return [];
+            
+            return allProjects.filter(project => {
+                // Check if project has at least one of the selected tags
+                return tags.some(tag => project.tags.includes(tag));
+            });
+        }
+
+        // Pick random project from matches
+        function pickRandomProject(projects) {
+            if (projects.length === 0) return null;
+            return projects[Math.floor(Math.random() * projects.length)];
+        }
+
+        // Display project card
+        function displayProject(project) {
+            if (!project) {
+                showNoProjectsMessage();
+                return;
+            }
+
+            currentProject = project;
+
+            const projectCard = document.getElementById('projectCard');
+            const tagsHtml = project.tags.map(tag => `<span class="tag-badge">${tag}</span>`).join('');
+            const skillsHtml = project.skills.map(skill => `<span class="skill-item">${skill}</span>`).join('');
+            const librariesHtml = project.libraries.length > 0 
+                ? project.libraries.map(lib => `<span class="library-item">${lib}</span>`).join('')
+                : '<span class="library-item">No external libraries required</span>';
+
+            const difficultyTag = project.tags.find(tag => ['easy', 'intermediate', 'advanced'].includes(tag));
+            
+            const librariesSection = showLibraries ? `
+                    <h4 style="margin-top: 15px;">Libraries</h4>
+                    <div class="libraries-list">${librariesHtml}</div>
+                ` : '';
+
+            projectCard.innerHTML = `
+                <h3>${project.name}</h3>
+                <div class="project-meta">
+                    <span class="difficulty-badge">${difficultyTag}</span>
+                    <span class="time-badge">⏱️ ${project.timeEstimate}</span>
+                </div>
+                <div class="tags-display">${tagsHtml}</div>
+                <p class="project-description">${project.description}</p>
+                <div class="project-skills">
+                    <h4>Core Skills</h4>
+                    <div class="skills-list">${skillsHtml}</div>
+                    ${librariesSection}
+                </div>
+            `;
+
+            const projectDisplay = document.getElementById('projectDisplay');
+            projectDisplay.classList.add('active');
+        }
+
+        function showNoProjectsMessage() {
+            const projectDisplay = document.getElementById('projectDisplay');
+            const projectCard = document.getElementById('projectCard');
+            
+            projectCard.innerHTML = `
+                <div class="no-projects-message">
+                    <p><strong>No projects found</strong> with your selected tags. Try selecting different options!</p>
+                    <button class="reset-button" onclick="resetSelection()">Reset Selection</button>
+                </div>
+            `;
+            
+            projectDisplay.classList.add('active');
+        }
+
+        function resetSelection() {
+            document.querySelectorAll('.tag-checkbox').forEach(cb => cb.checked = false);
+            document.getElementById('projectDisplay').classList.remove('active');
+            currentProject = null;
+            updateButtonState();
+        }
+
+        // Update button state based on selected tags
+        function updateButtonState() {
+            const selectedTags = getSelectedTags();
+            const revealBtn = document.getElementById('revealBtn');
+            revealBtn.disabled = selectedTags.length === 0;
+        }
+
+        // Reveal button click handler
+        document.getElementById('revealBtn').addEventListener('click', () => {
+            const selectedTags = getSelectedTags();
+            const matchingProjects = filterProjectsByTags(selectedTags);
+            const selectedProject = pickRandomProject(matchingProjects);
+            displayProject(selectedProject);
+        });
+
+        // Update button state on checkbox change
+        document.querySelectorAll('.tag-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', updateButtonState);
+        });
+
+        // Library toggle handler
+        document.getElementById('libraryCheckbox').addEventListener('change', () => {
+            showLibraries = !showLibraries;
+            // Redisplay the current project with updated library visibility
+            if (currentProject) {
+                displayProject(currentProject);
+            }
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', loadProjects);
+    </script>
+</body>
+</html>
