@@ -1,0 +1,18 @@
+The basic idea of facial recognition is
+to try and extract some very small feature
+representation or template that describes
+properties of the face. So, for instance,
+a property that we know is
+very distinguishing between individuals
+is the ratio of the distance between the eyes
+and the length of the nose. If I would measure that for myself and I would
+measure it for you, it would be a very
+different value. And so what this template or what this feature
+representation for an individual face contains are features like that,
+are properties like that. Now, once you've
+extracted these features for a very large set
+of individuals who you would like to recognize, the problem becomes a
+nearest neighbor problem, right? You receive
+a new image of a face, you extract the same properties, and you ask the question, "What individual in my database has a face with
+most similar properties?" Which is essentially what a nearest neighbor model or nearest neighbor
+classifier is doing. So that's sort of how it works.

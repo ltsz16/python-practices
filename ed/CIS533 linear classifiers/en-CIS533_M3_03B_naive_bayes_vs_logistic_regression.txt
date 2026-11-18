@@ -1,0 +1,61 @@
+Logistic regression is highly
+related to Gaussian Naive Bayes. Both of them end up with very similar conditional
+probabilities of P of y given x; the probability
+of the label given x. At least these distributions
+have a very similar form. However, there's
+a crucial difference, and that is that Naive Bayes estimates P of x given y with
+maximum likelihood estimate, whereas logistic regression
+estimates P of y given x. We call the first one
+a generative model, the second one a
+discriminative model. Let me show you where
+this difference could come in. So, let me generate a data set here that I will then feed into
+the Gaussian Naive Bayes classifier. Here I'm drawing data points from the negative class and I'll
+make it nice and Gaussian. And now I draw data points
+from the positive class, and I make these also nice and Gaussian except
+I do something evil. I move two points, or maybe
+three points here, off to the side. That's extremely unlikely, right; if they really were drawn from
+a Gaussian distribution, this would never happen
+that three points are so far off, kind of all together. So our modeling assumption
+that probability of x given y is Gaussian
+doesn't really apply here. So what does Naive Bayes do
+in this kind of scenario? Well, if you run it,
+here is what you see. So, now you see all the red region is the region that Naive Bayes
+classifier classifies as positive; the blue region is the region
+that it classifies as negative. And what happens? It takes the data
+from these two different classes, estimates them both with a Gaussian in each dimension
+independently, and then it takes these two Gaussian distributions — ignores the data; just takes the two Gaussian
+distributions — and tries to find a hyperplane that separates these two Gaussian distributions
+from each other. That's what you get with a sigmoidal. So, the only thing we're estimating is the
+Gaussian distributions; after that, everything is on rails. After that, once you have
+two Gaussian distributions, there is a hyperplane that
+automatically basically specifies exactly when does one distribution become more likely than the other. Now, here's the key. When we estimate P of x given y, these outlier points don't
+really come in very much; they shift the Gaussian a little
+bit over into this region, but we will end up
+misclassifying these points. Because if you have a Gaussian
+here and a Gaussian here, the middle point is somewhere
+here in the middle, right? And the Naive Bayes classifier will essentially sacrifice
+these three points. Logistic regression, on the other
+hand, will do something else. It estimates P of y given x for every single data point; it makes no explicit assumption
+that has to be Gaussian. And so what it will do, it goes
+through every single data point and say what's the probability
+that this data point really has the label that it has? Now, the current solution
+will actually be pretty bad, because these xs here
+are actually positive, but under the current model, they should be negative. Right? They are deep into the blue region. So this is not the optimal solution
+for logistic regression. So if we keep optimizing
+logistic regression, you will see that this decision
+boundary actually starts moving, and it moves around to get these
+viewpoints correctly classified and will find a separating
+hyperplane that actually classifies
+all the points correctly. So in summary, Naive Bayes and
+logistic regression are highly related. Both end up with a sigmoidal
+posterior distribution of P of y given x, w, but the way they find
+them is different. Naive Bayes models estimate
+in Gaussian distributions and then finds P of y given x from
+these Gaussian distributions, whereas logistic regression
+does it directly from the data. Naive Bayes is better if your modeling assumption is correct and if you have very little data; then actually this
+additional Gaussian helps you require less data
+to train the classifier. On the other hand,
+if your distribution via assumption is not met,
+if they're not truly Gaussian, or if you have a lot of data so that this modeling
+assumption is unnecessary, then logistic regression is more powerful and tends to
+get the better classifier.

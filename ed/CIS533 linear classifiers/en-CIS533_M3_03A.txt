@@ -1,0 +1,58 @@
+Logistic regression is
+highly related to Naive Bayes. In some sense, what we're doing is, we make similar modeling assumptions. However, instead of
+estimating P of x given y, we estimate P of y given x directly.
+And here's what happens. So, when you do Naive Bayes with the multinomial
+or with the Gaussian distribution, then, as we established earlier, you actually get a linear classifier. Let's just walk through this one
+more time, just to explain it. So, we have these — we estimate P of x given y, let's say in one dimension, using a Gaussian distribution. Assume we just have a one-dimensional data set;
+then we basically have P of x given y for both classes.
+And now for a new test point, I would like to know
+what's the probability that the class label is 1
+or the class label is minus 1. And if you look at this,
+well. if I'm in the blue region, where all the blue points are,
+I'm much more likely to be drawn from
+the blue Gaussian, like the blue points, and
+therefore the probability of the negative label
+is much more likely. When I, however,
+go away from this and I get into the red territory, it's much, much more likely that my data point was drawn
+from the red distribution. And if we now look at the
+probability distribution of y given x — and let's say
+probability of y is positive given x — then you see that actually in
+the blue region this is almost 0, but as then we get closer and
+closer to the red region, this probability goes up and
+goes more and more closer to 1. And this function is
+a sigmoidal function. So, sigmoidal function basically is 0 on one limit and 
+1 on the other limit and kind of at some point
+has this S shape where it hits 0.5 exactly where
+the decision boundary is. There you are kind of undecided; it's equally likely that you
+have the red distribution over the blue distribution, and then you take off and become more and
+more likely that it's positive. The sigmoidal function is
+P of y given x is 1 over 1 plus e to the minus y
+w transpose x, where y is either
+plus 1 or minus 1. What we do in logistic regression is that we assume this function
+from the get-go. So instead of arriving there and basically doing
+our modeling assumptions for P of x given y and so on and at the end we arrive at
+the sigmoidal function, we assume the
+sigmoidal function from the get-go and
+now we just fit w with maximum likelihood estimation, similar to the linear
+regression model. So essentially what we are
+saying, if you say, OK, well, we have a form of
+P of y given x, right, different from linear regression; we are no longer saying it's Gaussian. We are saying it has
+the following form; it has the sigmoidal form, 1 over 1 plus e to the minus y
+w transpose x, which is what you would get with
+the Naive Bayes classifier. But now we are tweaking w to make our data as likely as
+possible. And how we do this, well, we once again use
+maximum likelihood estimation. So, we go over our data and
+we maximize the product P of yi given xi for all our data points, and that is exactly what we do with
+logistic regression. The difference between
+logistic regression and Naive Bayes is that Naive Bayes makes a much, much stronger
+assumption about the data; basically assumes that P of x given y
+is, for example, Gaussian distributed. That can be good or bad. It can be good if you have very little data, because
+this way you can put some additional information into your model and it can
+help you learn quicker. If you have a lot of data, however, then it's probably
+a bad thing, because the probability of x given y is
+not exactly Gaussian, right? So, logistic regression,
+you actually learn P of y given x and
+you are much more flexible. So, if you have a lot of data, typically logistic
+regression works better. If you have very little
+data or you have a very precise idea what the
+distribution of x given y is, then Naive Bayes can be better.
