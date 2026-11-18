@@ -1,0 +1,154 @@
+<h1>Hosting Jupyter Notebooks on GitHub Pages</h1>
+
+<p>Great question! While GitHub Pages doesn't natively <strong>execute</strong> Jupyter notebooks, there are several excellent ways to host and display them:</p>
+
+<h2>Option 1: <strong>nbconvert (Recommended for GitHub Pages)</strong></h2>
+
+<p>Convert Jupyter notebooks to static HTML and commit the HTML files.</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="c1"># Install nbconvert</span>
+pip<span class="w"> </span>install<span class="w"> </span>nbconvert
+
+<span class="c1"># Convert .ipynb to .html</span>
+jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class="w"> </span>html<span class="w"> </span>your_notebook.ipynb
+
+<span class="c1"># Or convert with a custom template</span>
+jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class="w"> </span>html<span class="w"> </span>--template<span class="w"> </span>classic<span class="w"> </span>your_notebook.ipynb
+</code></pre>
+</div>
+
+<p><strong>Advantages:</strong>
+- ✅ Works directly on GitHub Pages
+- ✅ Fast loading (static HTML)
+- ✅ No execution required
+- ✅ All outputs are pre-computed
+- ✅ Beautiful formatted code and markdown</p>
+
+<p><strong>Disadvantages:</strong>
+- ❌ Users cannot run/modify code
+- ❌ Requires manual updates when notebook changes</p>
+
+<h2>Option 2: <strong>GitHub's Built-in Notebook Viewer</strong></h2>
+
+<p>Push <code>.ipynb</code> files to your repository—GitHub automatically renders them!</p>
+
+<p><strong>Advantages:</strong>
+- ✅ No conversion needed
+- ✅ Shows code, markdown, and output beautifully
+- ✅ Works in any GitHub repository</p>
+
+<p><strong>Disadvantages:</strong>
+- ❌ Only works on github.com (not GitHub Pages static site)
+- ❌ Users still cannot execute code</p>
+
+<p><strong>How to use:</strong>
+Just link to your notebook in your GitHub Pages site:</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://github.com/yourusername/repo/blob/main/notebook.ipynb&quot;</span><span class="p">&gt;</span>
+  View Notebook on GitHub
+<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</code></pre>
+</div>
+
+<h2>Option 3: <strong>nbviewer (Free Service)</strong></h2>
+
+<p>Use Jupyter's free <code>nbviewer</code> service to display notebooks from any URL.</p>
+
+<pre><code>https://nbviewer.org/github/yourusername/yourrepo/blob/main/notebook.ipynb
+</code></pre>
+
+<p><strong>Advantages:</strong>
+- ✅ Works with static GitHub Pages
+- ✅ Beautiful rendering
+- ✅ No setup needed
+- ✅ Free service by Jupyter project</p>
+
+<p><strong>Disadvantages:</strong>
+- ❌ Depends on external service
+- ❌ Users cannot execute code</p>
+
+<p><strong>How to use:</strong>
+Link in your GitHub Pages HTML:</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://nbviewer.org/github/ltsz16/python-practices/blob/main/ed/CIS532%20prod%20distribution/Baby_Name_Classifier.ipynb&quot;</span><span class="p">&gt;</span>
+  View Baby Name Classifier
+<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</code></pre>
+</div>
+
+<h2>Option 4: <strong>Binder (Full Execution)</strong></h2>
+
+<p>Deploy notebooks with full Python execution capability using Binder.</p>
+
+<p><strong>Advantages:</strong>
+- ✅ Users can run and modify code
+- ✅ Full interactive environment
+- ✅ Works with GitHub repositories
+- ✅ Free (though limited resources)</p>
+
+<p><strong>Disadvantages:</strong>
+- ❌ Slower startup (~30 seconds to launch environment)
+- ⚠️ Limited computational resources</p>
+
+<p><strong>How to use:</strong>
+1. Add a <code>requirements.txt</code> file to your repository with dependencies
+2. Create a Binder link:</p>
+
+<pre><code>https://mybinder.org/v2/gh/ltsz16/python-practices/main?filepath=ed/path/to/notebook.ipynb
+</code></pre>
+
+<h2>Option 5: <strong>Google Colab Links</strong></h2>
+
+<p>Upload notebooks to Google Drive and link from GitHub Pages.</p>
+
+<p><strong>Advantages:</strong>
+- ✅ Full execution environment
+- ✅ Free Google account required
+- ✅ Modern interface
+- ✅ GPU/TPU available (free tier)</p>
+
+<p><strong>Disadvantages:</strong>
+- ❌ Requires separate Google Drive setup
+- ❌ Less integrated with GitHub workflow</p>
+
+<h2>Recommendation for Your Repository</h2>
+
+<p>Given your structure with educational notebooks in <code>ed/</code>, I recommend:</p>
+
+<p><strong>Primary Approach: nbconvert + GitHub Pages</strong>
+1. Convert each <code>.ipynb</code> to <code>.html</code> using nbconvert
+2. Store HTML files in your <code>ed/</code> directory
+3. Update your links in <code>ed/README.md</code> to point to the HTML files
+4. Users see formatted, fully-rendered content immediately</p>
+
+<p><strong>Secondary Approach: Link to nbviewer</strong>
+Add links in your markdown that point to nbviewer for quick viewing without conversion.</p>
+
+<p><strong>Example implementation:</strong></p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="gu">## Learning Resources</span>
+
+<span class="gu">### Data Science</span>
+<span class="k">-</span><span class="w"> </span>[<span class="nt">Baby Name Classifier</span>](<span class="na">https://nbviewer.org/github/ltsz16/python-practices/blob/main/ed/CIS532%20prod%20distribution/Baby_Name_Classifier.ipynb</span>) - Interactive viewer
+<span class="k">-</span><span class="w"> </span>[<span class="nt">Linear Regression Demo</span>](<span class="na">linear_regression_demo.html</span>) - Pre-rendered HTML
+
+<span class="gu">### Linear Classifiers  </span>
+<span class="k">-</span><span class="w"> </span>[<span class="nt">Perceptron Classifier</span>](<span class="na">https://nbviewer.org/github/ltsz16/python-practices/blob/main/ed/CIS533%20linear%20classifiers/Perceptron_Classifier.ipynb</span>)
+</code></pre>
+</div>
+
+<h2>Quick Setup Command</h2>
+
+<p>Convert all notebooks in your <code>ed/</code> directory to HTML:</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="nb">cd</span><span class="w"> </span>ed/
+find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.ipynb&quot;</span><span class="w"> </span>-exec<span class="w"> </span>jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class="w"> </span>html<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+</code></pre>
+</div>
+
+<p>This will create <code>.html</code> files next to each <code>.ipynb</code> file, viewable on GitHub Pages!</p>
