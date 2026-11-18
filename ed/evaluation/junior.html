@@ -1,0 +1,93 @@
+<h1>Junior Python Evaluation</h1>
+
+<h2>Goal</h2>
+
+<p>Assess foundational Python understanding for developers who are new to the language or still building core skills.</p>
+
+<h2>Format</h2>
+
+<ul>
+<li>10-minute concept quiz</li>
+<li>2 short coding tasks</li>
+<li>1 debugging task</li>
+<li>1 simple scenario</li>
+</ul>
+
+<h2>Topics</h2>
+
+<ul>
+<li>variables and types</li>
+<li>lists, dicts, and loops</li>
+<li>conditionals</li>
+<li>functions and return values</li>
+<li>basic file reading</li>
+<li>exceptions</li>
+<li>venv and pip basics</li>
+</ul>
+
+<h2>Sample questions</h2>
+
+<ol>
+<li>What is the difference between a list and a tuple?</li>
+<li>What does <code>len()</code> do?</li>
+<li>How do you create a function in Python?</li>
+<li>What is the purpose of a <code>return</code> statement?</li>
+<li>What happens when a file does not exist and you try to open it?</li>
+<li>What is the difference between <code>=</code> and <code>==</code>?</li>
+</ol>
+
+<h2>Coding tasks</h2>
+
+<h3>Task 1: Sum even numbers</h3>
+
+<div class="codehilite">
+<pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">sum_even_numbers</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">total</span>
+</code></pre>
+</div>
+
+<h3>Task 2: Read file and average numbers</h3>
+
+<div class="codehilite">
+<pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">average_from_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span> <span class="k">if</span> <span class="n">count</span> <span class="k">else</span> <span class="mi">0</span>
+</code></pre>
+</div>
+
+<h2>Debugging task</h2>
+
+<p>Fix this broken snippet:</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+</code></pre>
+</div>
+
+<h2>Scoring emphasis</h2>
+
+<ul>
+<li>correctness</li>
+<li>understanding of core syntax</li>
+<li>ability to follow basic examples</li>
+<li>willingness to ask for clarification when needed</li>
+</ul>
+
+<h2>Training priority</h2>
+
+<p>The junior version should surface gaps in:
+- variables and assignment
+- function basics
+- loops and conditionals
+- reading files
+- environment setup</p>

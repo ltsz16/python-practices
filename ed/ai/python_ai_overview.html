@@ -1,0 +1,150 @@
+<h1>Search</h1>
+
+<p>Used in traffic mapping, creating recipie based on ingredients, routing (supply chain and logstics).  Try to come up with a solution which meets the goal and has a minimal path cost function.
+<a href="0-Search/0%20-%20Search.pdf">Overview</a></p>
+
+<p><strong>Depth-First Search</strong> and <strong>Breadth-First Search</strong>
+Example building a <a href="0-Search/demo/maze.py">maze</a></p>
+
+<p><strong>Greedy Best Search</strong>
+Manhatten distance
+Get block distance from goal
+When traveling take the number that is the lowest (i.e. closest to the goal)
+<em>A* Search</em>: Track number of actions plus the "price" of the square and go with the choice that is cheapest (even as continue down a path)</p>
+
+<p><strong>Adversarial Search</strong>
+When have an opposing force (e.g. a competitor).  e.g. if lower prices what will competitors do and what will be consequences.
+Uses <em>minimax</em>
+<em>Alpha-Beta Pruning</em> used to help determin path and lower cost.  See if level is better than originator
+<strong>Depth-Limited Minimax</strong> Limit depth
+Example: <a href="ai/0 - Search/projects/Tic-Tac-Toe.pdf">tic-tac-toe</a></p>
+
+<h1>Knowledge</h1>
+
+<p>Try to draw new conclusions based on internal representations of knowledge.
+<a href="1-knowledge/1%20-%20Knowledge.pdf">overview</a></p>
+
+<p><strong>Propositional Logic</strong>
+Get into CNF (conjuctal normal form)
+1. Eliminate biconditionals
+2. Eliminate implications
+3. Move <em>not</em> inwards using De Morgan's Law
+4. Use distributive law to  distribute  wherever possible</p>
+
+<p><strong>First Order Logic</strong></p>
+
+<p><strong>Universal Quantification</strong></p>
+
+<h1>Probabilities</h1>
+
+<p><a href="2-Uncertainty/2%20-%20Uncertainty.pdf">Overview</a>
+<strong>Baynsian Networks</strong></p>
+
+<p><strong>Markov Chain</strong></p>
+
+<p><strong>Hidden Markov Model</strong></p>
+
+<h1>Optimization</h1>
+
+<p><a href="3-Optimization/3%20-%20Optimization.pdf">Overview</a>
+e.g. where should I build a new location</p>
+
+<p><strong>Hill Climbing</strong>
+Do neighbors get me into a better spot (heading towards a global maximum or global minimum, depending on objective)</p>
+
+<p><strong>Linear Programming</strong>
+e.g. find best route for a salesman, or how to run 2 machines at different cost and productivity output
+Minimize cost function
+notebook starting page: 68</p>
+
+<h1>Machine Learning</h1>
+
+<p><a href="4-Learning/4%20-%20Learning.pdf">Overview</a></p>
+
+<p><strong>Supervised Learning</strong>
+Machine learn a function to map inputs to outputs
+- Classifications: Machine to produce a model to produce labels for data
+- - Nearest-neighbor (look at nearest neighbor)
+- - k-nearest-neighbor (smooth out, look at net of neighbors) (create hyperplane, pereceptron)
+- - Support Vector Machine (SVM).  Create hyperplane to max margin separators
+- Regression: Learning teask of learning a function mapping an input point to a continuious value
+* Loss Fuction: Express how good/bad function is based on predicted to actual
+* * 0-1 loss (1=true, 0 = false)
+* * L1 loss (absolute value of actual - predicted)
+* * L2 loss (actual - predicted and square the answer).  Really penalizes if further off
+* Overfitting
+* * Regularization
+* Underfitting</p>
+
+<p><strong>Reinforcement Learning</strong>
+set or rewards or punishments to learn what actions to take in the future</p>
+
+<p><strong>Unsupervised Learning</strong>
+Cluster applications.  E.g. genetic research, image segmentation, market research, social network analysis</p>
+
+<ul>
+<li><em>k</em>-means clustering
+Markov Decision Process
+Q-learning</li>
+</ul>
+
+<h1>Neural Networks</h1>
+
+<p><a href="5-Neural_Networks/5%20-%20Neural%20Networks.pdf">Overview</a>
+<a href="playground.tensorflow.org">Tensorflow</a></p>
+
+<ul>
+<li>Based on idea of how people thougth neurons worked
+<strong>Activation Functions</strong></li>
+<li>Step Function</li>
+<li>Logistic Sigmoid</li>
+<li>rectified linear unit (ReLU)
+<strong>Minimize Loss</strong></li>
+<li>Gradient Descent</li>
+<li>Stochastic Gradient Descent</li>
+<li>Mini-Batch Gradient Descent</li>
+</ul>
+
+<p><em>weights</em> attach neurons
+- Example neuron x1 and x2 = g(w0 + w1x1 + w2x2)
+- - e.g. "or" would be w = -1
+- - e.g. "and" would be w = -2</p>
+
+<p><strong>Backpropagation</strong>
+Algorithm for training neural networks with hidden layers
+• Start with a random choice of weights.
+• Repeat:
+•   Calculate error for output layer.
+•   For each layer, starting with output layer and moving inwards towards earliest hidden layer:
+• Propagate error back one layer.
+• Update weights</p>
+
+<h2>deep neural networks</h2>
+
+<p>neural network with multiple hidden layers</p>
+
+<p><strong>Overfitting</strong>
+* Dropout: temp. rmv. units, at random, to prevent over-reliance</p>
+
+<h2>Feed forward neural network</h2>
+
+<h2>recurrent neural network</h2>
+
+<p>neural network that generates output that feeds back into its own inputs</p>
+
+<p><strong>pooling</strong>
+Reducing the size of input usig samples of regions of the input</p>
+
+<p><strong>max pooling</strong>
+pooling by choosing the maximum value in each region</p>
+
+<h1>Language</h1>
+
+<p><a href="6-Language/6%20-%20Language.pdf">overview</a></p>
+
+<ul>
+<li><a href="6-Language/demo/sentiment/sentiment.py">Sentiment analysis</a></li>
+<li><a href="6-Language/demo/cfg/cfg1.py">Sentance parsing</a></li>
+<li>Translation</li>
+<li><a href="6-language/demo/markov/generator.py">Sentence creation</a></li>
+</ul>

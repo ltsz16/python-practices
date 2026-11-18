@@ -1,0 +1,726 @@
+<h1>Python</h1>
+
+<p><a href="https://www.tiobe.com/tiobe-index">TIOBE Index</a></p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#python-resources">Python Resources</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#what-is-it">What is it</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#env">Env</a></li>
+<li><a href="#basics">Basics</a></li>
+<li><a href="#virtual-environments">Virtual Environments</a></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#debugging">Debugging</a></li>
+<li><a href="#popular-libraries--frameworks">Popular Libraries &amp; Frameworks</a></li>
+<li><a href="#additional-topics">Additional Topics</a></li>
+<li><a href="#data">Data</a></li>
+<li><a href="#advanced-topics">Advanced Topics</a></li>
+<li><a href="#new-since-python-310">New since Python 3.10</a></li>
+<li><a href="#special-notes">Special Notes</a>
+<h2>- <a href="#external-resources">External Resources</a></h2></li>
+</ul>
+
+<h2>Getting Started</h2>
+
+<p>Install all the following
+<a href="https://code.visualstudio.com/">Visual Studio Code</a><br />
+<a href="https://git-scm.com/downloads">Git</a><br />
+<a href="https://www.python.org/downloads/">Get Python</a><br />
+<a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">VS Code Python Extension</a><br />
+<a href="https://marketplace.visualstudio.com/items?itemName=donjayamanne.python-extension-pack">VS Code Python Extension Pack</a></p>
+
+<h2>Git</h2>
+
+<p>Using Github</p>
+
+<h2>Python Resources</h2>
+
+<p><a href="https://docs.python.org/3/">3.12.0 Documentation (python.org)</a><br />
+<a href="https://docs.python.org/3/tutorial/index.html">The Python Tutorial — Python 3.12.0 documentation</a><br />
+<a href="https://docs.python.org/3/reference/index.html">The Python Language Reference — Python 3.12.0 documentation</a><br />
+<a href="https://docs.python.org/3/library/index.html">The Python Standard Library — Python 3.12.0 documentation</a><br />
+<a href="https://peps.python.org/">PEP 0 – Index of Python Enhancement Proposals (PEPs) | peps.python.org</a><br />
+<a href="https://pypi.org/">PyPI · The Python Package Index</a></p>
+
+<h2>Overview</h2>
+
+<ul>
+<li>High-level</li>
+<li>Dynamic</li>
+<li>Object-oriented</li>
+<li>Cross-platform</li>
+<li>Format matters</li>
+<li>Not strongly typed</li>
+<li><ul>
+<li>Int not limited in size (high percision up to size of memory)</li>
+</ul></li>
+
+</ul>
+
+<h2>What is it</h2>
+
+<ul>
+
+<p><li>Standards: PEP (e.g. PEP 8)</li>
+<li>It is a spec and implementations of that spec (part installed)
+These two are released <em>full</em> to the spec:</li>
+<li><ul>
+<li>CPython (aka Python, classic python)</li>
+</ul></li>
+<li><ul>
+<li>PyPy </li>
+</ul></li>
+<li>IPython (interactive environent, i.e. Jupyter Notebook)</li>
+<li>Anaconda (includes preconfigred extenson modules based on Conda package manager)</li>
+</ul></p>
+
+<p>octoverse.github.com</p>
+
+<h2>Setup</h2>
+
+<ol>
+<li>Installing Python</li>
+<li><a href="https://github.com/ericdboyd/vslive-2026-python-and-ai-day-1">Setup environemnt</a></li>
+</ol>
+
+<h2>Env</h2>
+
+<ul>
+<li>python.exe</li>
+<li>Env Vars</li>
+<li><ul>
+<li>PATH: where to find python.exe</li>
+</ul></li>
+<li><ul>
+<li>PYTHONHOME: python installation dir with lib</li>
+</ul></li>
+<li><ul>
+<li>PYHTONPATH: ist of modules</li>
+</ul></li>
+<li><ul>
+<li>PYTHONSTARTUP: Pytho source to execute on start of interpreter</li>
+</ul></li>
+<li>REPL (Read, Evaluate, Print, Loop)</li>
+<li><ul>
+<li>Interactive session</li>
+</ul></li>
+<li>PIP: Package manager</li>
+<li><ul>
+<li>freeze &gt; <file.txt></li>
+</ul></li>
+<li><ul>
+<li>install -r <file.txt></li>
+</ul></li>
+<li><ul>
+<li>install <module></li>
+</ul></li>
+<li><ul>
+<li>list</li>
+</ul></li>
+</ul>
+
+<h3>Conventions</h3>
+
+<ul>
+<li>requirements.txt (root and name)</li>
+<li>lower case and underscore nameing</li>
+<li>private is prefaced with an underscore</li>
+</ul>
+
+<h2>Basics</h2>
+
+<ul>
+<li>comments #</li>
+<li>Pass and ...</li>
+</ul>
+
+<ol>
+<li><a href="02 - Functions and Variables\demo">Hello World</a></li>
+<li>Calculator</li>
+<li>Functions</li>
+</ol>
+
+<ul>
+<li>colons</li>
+<li>indentation (convention says 4,, though not required)</li>
+<li>convention of a main function as entrypoint</li>
+<li>line order (top to end)</li>
+<li>returns</li>
+<li>typing on parameters and return</li>
+<li>*args **kwargs</li>
+</ul>
+
+<ol start="4">
+<li>Conditionals</li>
+</ol>
+
+<ul>
+<li>compare</li>
+<li><ul>
+<li>and, or, &lt;&gt;=, startswith, contains, ==, !=, null</li>
+</ul></li>
+<li><ul>
+<li>Booleans (True/False)</li>
+</ul></li>
+<li>if elif</li>
+<li>match</li>
+<li><ul>
+<li>_ for else and | for multiple match</li>
+</ul></li>
+<li>line condensing:
+e.g. return True if n % 2 == 0 else False</li>
+</ul>
+
+<ol start="5">
+<li>Groups</li>
+</ol>
+
+<ul>
+<li>lists</li>
+<li><ul>
+<li>sorted</li>
+</ul></li>
+<li>dictionaries</li>
+<li>sets</li>
+</ul>
+
+<ol start="6">
+<li>Loops</li>
+</ol>
+
+<ul>
+<li>while</li>
+<li>for</li>
+<li><ul>
+<li>for in range</li>
+</ul></li>
+<li>incrementing/decrementing</li>
+<li><ul>
+<li>+= -+
+<strong>Project</strong>: <em>Create tic-tac-toe</em></li>
+</ul></li>
+</ul>
+
+<ol start="7">
+<li>Library importing</li>
+</ol>
+
+<ul>
+<li>import top level</li>
+<li>import function/class from module</li>
+<li><ul>
+<li>be aware of overloading</li>
+</ul></li>
+<li>alias import</li>
+<li>import a custom file</li>
+<li>Looking up library docs</li>
+</ul>
+
+<ol start="8">
+<li>Random</li>
+</ol>
+
+<ul>
+<li>Number Generation: random, randint, uniform, randrange</li>
+<li>Sequence Operations: choice, choices, shuffle, sample</li>
+<li>Distribution: gauss, normalvariate, expovariate, betavariate, gammavariate, etc</li>
+<li>State control: seed, getstate, setstate</li>
+<li>secrets: secrets module</li>
+</ul>
+
+<ol start="9">
+<li>Arguments</li>
+</ol>
+
+<ul>
+<li>sys.argv</li>
+<li>argparse</li>
+<li>cowspeak</li>
+</ul>
+
+<ol start="10">
+<li>FIle IO</li>
+</ol>
+
+<ul>
+<li>open</li>
+<li>with</li>
+</ul>
+
+<ol start="11">
+<li>Error Handling &amp; Exceptions</li>
+</ol>
+
+<ul>
+<li>try/except blocks</li>
+<li>except specific exceptions (ValueError, TypeError, etc.)</li>
+<li>else clause (runs if no exception)</li>
+<li>finally clause (always runs, for cleanup)</li>
+<li>raise custom exceptions</li>
+<li>Custom exception classes</li>
+<li>Exception hierarchy
+<strong>Project</strong>: <em>Create a math testing app</em></li>
+</ul>
+
+<h2>Virtual Environments</h2>
+
+<ul>
+<li>Isolate project dependencies</li>
+<li>venv module: <code>python -m venv env_name</code></li>
+<li>Activate: <code>.\\env_name\\Scripts\\activate</code> (Windows)</li>
+<li>requirements.txt for dependency management</li>
+</ul>
+
+<h3>Debugging</h3>
+
+<ul>
+<li>pdb (Python debugger) - breakpoints, step through code</li>
+<li>print() debugging</li>
+<li>logging module for production debugging</li>
+<li>IDE debuggers (VS Code, PyCharm)</li>
+<li>traceback for error information</li>
+</ul>
+
+<h2>Testing</h2>
+
+<ul>
+<li>Types of testing</li>
+<li><ul>
+<li>White box: unit, functional</li>
+</ul></li>
+<li><ul>
+<li>Black Box: Smoke, load, acceptance</li>
+</ul></li>
+<li>unittest framework (built-in)</li>
+<li>pytest (popular third-party)</li>
+<li>Test discovery and test runners</li>
+<li>Assertions: <code>assert condition, "message"</code></li>
+<li>Mock objects for testing without side effects</li>
+</ul>
+
+<h2>Popular Libraries &amp; Frameworks</h2>
+
+<ul>
+<li>Data: numpy, pandas (data analysis)</li>
+<li>Web: Flask, Django (web applications)</li>
+<li>HTTP: requests (web scraping, API calls)</li>
+<li>JSON handling: json module</li>
+<li>Date/time: datetime module</li>
+<li>Regular expressions: re module</li>
+<li>REST: fastapi module</li>
+</ul>
+
+<h2>Adtl Topics</h2>
+
+<h3>Comprehensions</h3>
+
+<ul>
+<li>List comprehensions: <code>[x*2 for x in range(5)]</code></li>
+<li>Dict comprehensions: <code>{k: v for k, v in list}</code></li>
+<li>Set comprehensions: <code>{x for x in list if condition}</code></li>
+<li>Generator expressions: <code>(x for x in range(1000))</code></li>
+</ul>
+
+<h3>Lambda Functions</h3>
+
+<ul>
+<li>Anonymous single-expression functions</li>
+<li>Syntax: <code>lambda x: x * 2</code></li>
+<li>Used with map(), filter(), sorted()</li>
+<li>Common in functional programming patterns</li>
+</ul>
+
+<h3>Decorators</h3>
+
+<ul>
+<li>Function/method wrappers that modify behavior</li>
+<li>@decorator syntax</li>
+<li>Built-in decorators: @property, @staticmethod, @classmethod</li>
+<li>Custom decorators with arguments</li>
+<li>functools.wraps for preserving metadata</li>
+</ul>
+
+<h3>Context Managers</h3>
+
+<ul>
+<li>with statement for resource management</li>
+<li><strong>enter</strong>() and <strong>exit</strong>() dunders</li>
+<li>Automatic cleanup (files, connections, locks)</li>
+<li>Example: <code>with open(file) as f:</code></li>
+</ul>
+
+<h3>Generators &amp; Iterators</h3>
+
+<ul>
+<li>yield keyword for lazy evaluation</li>
+<li>Generators save memory (don't compute all values upfront)</li>
+<li>Iterator protocol: <strong>iter</strong>() and <strong>next</strong>()</li>
+<li>Use cases: large datasets, infinite sequences</li>
+</ul>
+
+<h3>Type Hints</h3>
+
+<ul>
+<li>Optional type annotations on parameters and returns</li>
+<li>Syntax: <code>def func(name: str, age: int) -&gt; bool:</code></li>
+<li>Type checking tools: mypy, Pylance</li>
+<li>Improves code readability and IDE support</li>
+</ul>
+
+<h3>Async/Await (Asynchronous Programming)</h3>
+
+<ul>
+<li>async/await keywords for concurrent code</li>
+<li>asyncio module for event loops</li>
+<li>Non-blocking I/O operations</li>
+<li>Useful for web scraping, API calls, networking</li>
+</ul>
+
+<h3>Common Patterns</h3>
+
+<ul>
+<li>Singleton pattern</li>
+<li>Factory pattern</li>
+<li>Observer pattern</li>
+<li>Builder pattern</li>
+<li>Context manager pattern</li>
+<li>Decorator pattern</li>
+</ul>
+
+<h3>Performance &amp; Optimization</h3>
+
+<ul>
+<li>List comprehensions vs loops (faster)</li>
+<li>Generator expressions for memory efficiency</li>
+<li>functools.lru_cache for memoization</li>
+<li>Profiling tools: cProfile, timeit</li>
+<li>Avoiding common pitfalls: mutable default arguments</li>
+</ul>
+
+<h3>Module Organization</h3>
+
+<ul>
+<li><strong>name</strong> == "<strong>main</strong>" pattern</li>
+<li>Package structure and <strong>init</strong>.py</li>
+<li>Relative vs absolute imports</li>
+<li>Module reload (importlib.reload)</li>
+</ul>
+
+<h3>Threading (Multithreading)</h3>
+
+<ul>
+<li>threading module for concurrent execution</li>
+<li>Thread class: create and manage threads</li>
+<li><code>Thread(target=func, args=(arg1,))</code> to create a thread</li>
+<li><code>.start()</code> to begin thread execution</li>
+<li><code>.join()</code> to wait for thread completion</li>
+<li>Global Interpreter Lock (GIL) — only one thread executes Python bytecode at a time</li>
+<li>Useful for I/O-bound tasks (file, network, database)</li>
+<li>NOT useful for CPU-bound tasks (use multiprocessing instead)</li>
+<li>Race conditions when multiple threads access same data</li>
+<li>Lock/Mutex for synchronization: <code>threading.Lock()</code></li>
+<li><code>with lock:</code> for safe access to shared resources</li>
+<li>Thread-safe queues: <code>queue.Queue()</code></li>
+<li>Daemon threads: background threads that exit when main program exits</li>
+</ul>
+
+<h3>Regex (Regular Expressions)</h3>
+
+<ul>
+<li>re module for pattern matching</li>
+<li>Pattern syntax: . (any char), * (0+), + (1+), ? (0-1), [] (character class)</li>
+<li>^ (start), $ (end), | (or), () (group)</li>
+<li>re.search() — Find first match</li>
+<li>re.findall() — Find all matches</li>
+<li>re.sub() — Replace matches</li>
+<li>re.match() — Match at start of string</li>
+<li>Flags: re.IGNORECASE, re.MULTILINE, re.DOTALL</li>
+<li>Grouping and backreferences for extracting data</li>
+</ul>
+
+<h3>OOP (Object-Oriented Programming)</h3>
+
+<p><a href="10 - OOP\demo\student20.py">example</a>
+<a href="10 - OOP\demo\wizard.py">example-inheritance</a>
+* Classes and objects
+* Attributes (data) and methods (functions)
+* Constructor: <strong>init</strong>()
+* self parameter (reference to instance)
+* Instance vs class variables
+* Inheritance (subclasses extend parent classes)
+* super() to call parent methods
+* Method overriding
+* Private variables (prefix with _)
+* Encapsulation and abstraction
+* Polymorphism (objects of different classes respond to same method name)
+* Abstract base classes (ABC) for interfaces
+* Dunder methods for custom behavior</p>
+
+<h3>math</h3>
+
+<ul>
+<li>math module for mathematical functions</li>
+<li>Constants: math.pi, math.e, math.tau, math.inf</li>
+<li>Basic: math.sqrt(), math.pow(), math.fabs()</li>
+<li>Trigonometry: math.sin(), math.cos(), math.tan()</li>
+<li>Logarithms: math.log(), math.log10(), math.exp()</li>
+<li>Rounding: math.floor(), math.ceil()</li>
+<li>Combinatorics: math.factorial(), math.gcd()</li>
+<li>Degrees/radians: math.degrees(), math.radians()</li>
+</ul>
+
+<h2>Data</h2>
+
+<h3>Working with Data Files</h3>
+
+<ul>
+<li>CSV files
+<ul>
+<li>csv module: <code>csv.reader()</code>, <code>csv.writer()</code>, <code>csv.DictReader()</code>, <code>csv.DictWriter()</code></li>
+<li>pandas: <code>pd.read_csv()</code>, <code>df.to_csv()</code></li>
+</ul></li>
+<li>JSON files
+<ul>
+<li>json module: <code>json.load()</code>, <code>json.dump()</code>, <code>json.loads()</code>, <code>json.dumps()</code></li>
+<li>Parsing and serializing Python objects</li>
+</ul></li>
+<li>YAML files
+<ul>
+<li>PyYAML library: <code>yaml.safe_load()</code>, <code>yaml.dump()</code></li>
+<li>Configuration file format</li>
+</ul></li>
+<li>Excel files
+<ul>
+<li>openpyxl or pandas for reading/writing .xlsx files</li>
+</ul></li>
+<li>Pickle (Python serialization)
+<ul>
+<li><code>pickle.dump()</code>, <code>pickle.load()</code> for saving Python objects</li>
+</ul></li>
+</ul>
+
+<h3>Data Structures for Data Handling</h3>
+
+<ul>
+<li>DataFrames (pandas)
+<ul>
+<li>Tabular data with rows and columns</li>
+<li><code>pd.DataFrame()</code> constructor</li>
+<li>Indexing, slicing, filtering</li>
+</ul></li>
+<li>Dictionaries for structured data</li>
+<li>Named tuples for lightweight data records</li>
+<li>Data classes (@dataclass) for clean data representation</li>
+<li>Series (pandas) for 1D labeled arrays</li>
+<li>Pydantic</li>
+</ul>
+
+<h3>Data Validation &amp; Cleaning</h3>
+
+<ul>
+<li>Type checking and validation</li>
+<li>Handling missing/null values (np.nan, pd.isna())</li>
+<li>Removing duplicates (pd.drop_duplicates())</li>
+<li>Data type conversion</li>
+<li>Input validation with try/except or libraries like pydantic</li>
+<li>Regex for data validation and extraction</li>
+</ul>
+
+<h3>Data Transformation</h3>
+
+<ul>
+<li>Filtering data (boolean indexing, <code>.query()</code>)</li>
+<li>Mapping/transforming values (<code>.apply()</code>, <code>.map()</code>)</li>
+<li>Grouping and aggregation (<code>.groupby()</code>, <code>.agg()</code>)</li>
+<li>Sorting and ranking</li>
+<li>Pivoting data (<code>.pivot()</code>, <code>.pivot_table()</code>)</li>
+<li>Merging and joining datasets (<code>.merge()</code>, <code>.join()</code>)</li>
+</ul>
+
+<h3>Working with Databases</h3>
+
+<ul>
+<li>SQLite (built-in, simple file-based)</li>
+<li>Connection and cursors</li>
+<li>SQL queries: SELECT, INSERT, UPDATE, DELETE</li>
+<li>Object-relational mapping (ORM) with SQLAlchemy</li>
+<li>Query builders and data access patterns</li>
+</ul>
+
+<h3>Data Analysis Basics</h3>
+
+<ul>
+<li>Descriptive statistics (mean, median, std, min, max)</li>
+<li>Correlation and covariance</li>
+<li>Grouping and cross-tabulation</li>
+<li>Time-series data handling</li>
+</ul>
+
+<h3>Data Visualization</h3>
+
+<ul>
+<li>Matplotlib, Plotly, Seaborn</li>
+</ul>
+
+<h2>Advanced topics</h2>
+
+<h3>Web Scraping</h3>
+
+<ul>
+<li>BeautifulSoup, Scrapy</li>
+</ul>
+
+<h3>Scientific Computing</h3>
+
+<ul>
+<li>NumPy, SciPy, Pandas</li>
+</ul>
+
+<h3><a href="python_ai_overview.md">AI</a></h3>
+
+<ul>
+<li>Linear Regression</li>
+<li>Random Forest</li>
+<li>Decision Trees</li>
+<li>Transformers</li>
+</ul>
+
+<h3><a href="python_adv_overview.md">Other</a></h3>
+
+<ul>
+<li>Multiprocessing for CPU-bound parallelism (vs threading for I/O-bound)</li>
+<li>Descriptors and properties (advanced attribute access control)</li>
+<li>Metaclasses (classes that create classes)</li>
+<li>Slots (<strong>slots</strong>) for memory optimization</li>
+<li>Context variables for async context management</li>
+<li>Named tuples (collections.namedtuple, typing.NamedTuple)</li>
+<li>Pickle/serialization for object persistence</li>
+<li>Networking (sockets, client-server communication)</li>
+<li>Database ORMs (SQLAlchemy)</li>
+<li>Web frameworks beyond Flask/Django (FastAPI, Starlette)</li>
+<li>Machine learning frameworks (scikit-learn, TensorFlow, PyTorch, JAX)</li>
+<li>Data visualization (Matplotlib, Plotly, Seaborn)</li>
+<li>Package development and distribution (setuptools, poetry, pyproject.toml)</li>
+<li>Garbage collection and memory management</li>
+<li>Bytecode and CPython internals</li>
+<li>C extensions and ctypes for performance-critical code</li>
+</ul>
+
+<h2>New since Python 3.10</h2>
+
+<h3>Python 3.10</h3>
+
+<ul>
+<li><strong>Structural Pattern Matching</strong> — match/case statement for complex control flow
+<ul>
+<li><code>match value:</code></li>
+<li><code>case pattern: ...</code></li>
+<li>Supports destructuring, guards, wildcards</li>
+</ul></li>
+<li><strong>Type Hints Improvements</strong>
+<ul>
+<li>Union types with <code>|</code> operator: <code>int | str</code> instead of <code>Union[int, str]</code></li>
+<li>Type hints on function parameters and returns more concise</li>
+</ul></li>
+<li><strong>Parenthesized Context Managers</strong> — multiple <code>with</code> statements on one line</li>
+<li><strong>New Built-in Type Hints</strong> — <code>types.UnionType</code></li>
+</ul>
+
+<h3>Python 3.11</h3>
+
+<ul>
+<li><strong>Exception Groups</strong> — PEP 654 for handling multiple exceptions
+<ul>
+<li><code>except* ExceptionType:</code> for grouping related exceptions</li>
+<li><code>BaseExceptionGroup</code> and <code>ExceptionGroup</code></li>
+</ul></li>
+<li><strong>Async Task Groups</strong> — <code>asyncio.TaskGroup()</code> for managing async tasks</li>
+<li><strong>StrEnum</strong> — String-based enums (enum.StrEnum)</li>
+<li><strong>TypedDict</strong> — Define dict structure with type hints</li>
+<li><strong>Performance Improvements</strong> — 10-60% faster than 3.10</li>
+<li><strong>Tomllib</strong> — Built-in TOML parsing</li>
+</ul>
+
+<h3>Python 3.12</h3>
+
+<ul>
+<li><strong>Type Parameter Syntax</strong> — PEP 695 generics without <code>TypeVar</code>
+<ul>
+<li><code>def func[T](x: T) -&gt; T:</code> instead of <code>T = TypeVar('T')</code></li>
+</ul></li>
+<li><strong>Override Decorator</strong> — <code>@override</code> to mark overridden methods</li>
+<li><strong>f-string Improvements</strong> — Debug syntax <code>f"{variable=}"</code> shows variable name and value</li>
+<li><strong>Per-Interpreter GIL</strong> — Experimental sub-interpreters with separate GILs</li>
+<li><strong>Improved Error Messages</strong> — Better suggestions for typos and mistakes</li>
+</ul>
+
+<h3>Python 3.13</h3>
+
+<ul>
+<li><strong>JIT Compilation (Experimental)</strong> — Just-in-time compilation for better performance</li>
+<li><strong>PEP 692 TypedDict Unpacking</strong> — <code>**TypedDict</code> in function signatures</li>
+<li><strong>Improved Async</strong> — Better async context manager support</li>
+<li><strong>Deprecations Warnings</strong> — Removal of deprecated features</li>
+<li><strong>Performance Optimizations</strong> — Further improvements to execution speed</li>
+</ul>
+
+<h2>Special Notes</h2>
+
+<h3>Variables</h3>
+
+<ul>
+<li>Not strongly typed</li>
+<li>float is different: it is usually IEEE 754 binary64, which is the same as a C/Java double.</li>
+<li><ul>
+<li>float precision (~ 15-17 decimal digits)
+<table>
+<thead>
+<tr>
+  <th>Type</th>
+  <th>Size limit</th>
+  <th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>int</td>
+  <td>No practical limit; grows with memory</td>
+  <td>Arbitrary precision integers</td>
+</tr>
+<tr>
+  <td>float</td>
+  <td>Fixed 64-bit on most systems</td>
+  <td>IEEE 754 binary64, like a C/Java double</td>
+</tr>
+<tr>
+  <td>float precision</td>
+  <td>~ 15-17 decimal digits</td>
+  <td>Not exact for values like 0.1 and 0.2</td>
+</tr>
+<tr>
+  <td>float range</td>
+  <td>Max about 1.8e308</td>
+  <td>Min positive about 5e-324</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+<li><p>Python variables are not limited the same way as fixed-size variables in many other languages.</p></li>
+<li><code>int</code> can grow as large as memory allows.</li>
+<li><code>float</code> is still limited by range and precision.</li>
+</ul>
+
+<h2>External Resources</h2>
+
+<p><a href="https://www.edx.org/school/harvardx">HarvardX edX Courses</a><br />
+<a href="https://www.edx.org/learn/python/harvard-university-cs50-s-introduction-to-programming-with-python">CS50 Python Course</a><br />
+<a href="https://www.geeksforgeeks.org/python3-tutorial/">Python 3 Tutorial - Learn Python 3 (geeksforgeeks.org)</a><br />
+<a href="https://www.geeksforgeeks.org/introduction-to-python/">Introduction To Python – GeeksforGeeks</a><br />
+<a href="https://code.visualstudio.com/docs/python/python-tutorial">Get Started Tutorial for Python in Visual Studio Code</a><br />
+<a href="https://learn.microsoft.com/en-us/training/paths/beginner-python/">Python for beginners - Training | Microsoft Learn</a><br />
+<a href="https://www.w3schools.com/python/">Python Tutorial (w3schools.com)</a><br />
+<a href="https://www.learnpython.org/">Learn Python - Free Interactive Python Tutorial</a> </p>

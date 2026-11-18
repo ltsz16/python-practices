@@ -1,0 +1,1087 @@
+<h1>Learning With Linear Classifiers</h1>
+
+<blockquote>
+  <p>Structured study notes for Cornell <strong>CIS533: Learning With Linear Classifiers</strong> (Prof. Kilian Weinberger). The raw bullet-note dump is preserved below as <strong>Appendix: Raw Study Notes</strong>.</p>
+</blockquote>
+
+<h2>Overview</h2>
+
+<p>A <strong>linear classifier</strong> predicts the class of an input by checking which side of a hyperplane the point lies on. Everything in this course boils down to the same recipe:</p>
+
+<p>$$h(\mathbf{x}) = \operatorname{sign}(\mathbf{w}^\top \mathbf{x} + b)$$</p>
+
+<p>The four algorithms we study only differ in <strong>how</strong> they choose $\mathbf{w}$ (and $b$):</p>
+
+<table>
+<thead>
+<tr>
+  <th>Algorithm</th>
+  <th>Problem</th>
+  <th>Chooses $\mathbf{w}$ by\u2026</th>
+  <th>Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Perceptron</td>
+  <td>Binary classification</td>
+  <td>Fixing mistakes one at a time</td>
+  <td>Mistake-driven (no explicit loss)</td>
+</tr>
+<tr>
+  <td>Linear Regression (OLS)</td>
+  <td>Regression</td>
+  <td>Gaussian-noise MLE $\Rightarrow$ closed form</td>
+  <td>Squared loss</td>
+</tr>
+<tr>
+  <td>Logistic Regression</td>
+  <td>Binary classification (with probabilities)</td>
+  <td>Sigmoid MLE $\Rightarrow$ gradient descent</td>
+  <td>Logistic (cross-entropy)</td>
+</tr>
+<tr>
+  <td>Gradient Descent</td>
+  <td><em>Optimizer</em> for the losses above</td>
+  <td>Step opposite the gradient</td>
+  <td>\u2014</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>Module 1: Linear Classifiers &amp; the Hyperplane</h2>
+
+<h3>1.1 Setup</h3>
+
+<ul>
+<li>Data: $D = {(\mathbf{x}<em>i, y</em>i)}_{i=1}^n$ with $\mathbf{x}<em>i \in \mathbb{R}^d$ and $y</em>i \in {+1, -1}$.</li>
+<li>A <strong>hyperplane</strong> is the set ${\mathbf{x} : \mathbf{w}^\top \mathbf{x} + b = 0}$.
+<ul>
+<li>$\mathbf{w}$ is <strong>orthogonal</strong> to the hyperplane \u2014 it sets the <em>direction</em>.</li>
+<li>$b$ is the <strong>bias / offset</strong> \u2014 how far from the origin the hyperplane sits.</li>
+</ul></li>
+<li><strong>Prediction:</strong> $\hat{y} = \operatorname{sign}(\mathbf{w}^\top \mathbf{x} + b)$.</li>
+</ul>
+
+<h3>1.2 Two assumptions</h3>
+
+<ol>
+<li>Labels are <strong>binary</strong> ($+1$ or $-1$).</li>
+<li>The two classes are <strong>linearly separable</strong> \u2014 some hyperplane cleanly divides them.</li>
+</ol>
+
+<blockquote>
+  <p><strong>When is assumption 2 realistic?</strong> In <em>low</em> dimensions it is restrictive. In <em>high</em> dimensions (text with millions of tokens, image pixels, etc.) it is almost always achievable \u2014 which is why linear classifiers dominate spam filtering, document categorization, and other high-dimensional tasks.</p>
+</blockquote>
+
+<h3>1.3 The bias trick \u2014 absorb $b$ into $\mathbf{w}$</h3>
+
+<p>Rather than carry a separate offset, append a constant $1$ to every feature vector and append $b$ to the weight vector:</p>
+
+<p>$$\widetilde{\mathbf{w}} = \begin{bmatrix} \mathbf{w} \ b \end{bmatrix}, \qquad \widetilde{\mathbf{x}} = \begin{bmatrix} \mathbf{x} \ 1 \end{bmatrix} \qquad\Longrightarrow\qquad \widetilde{\mathbf{x}}^\top \widetilde{\mathbf{w}} = \mathbf{w}^\top \mathbf{x} + b$$</p>
+
+<p>Now every hyperplane passes through the origin in the augmented space, and we can write the entire course in terms of $\mathbf{w}^\top \mathbf{x}$ alone.</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_bias</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a column of 1s so w can absorb the bias.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))])</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">add_bias</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="c1"># [[ 1.  3.  1.]</span>
+<span class="c1">#  [-1.  4.  1.]]</span>
+</code></pre>
+</div>
+
+<hr />
+
+<h2>Module 2: The Perceptron</h2>
+
+<p>Invented at Cornell by Frank Rosenblatt in <strong>1957</strong> \u2014 arguably the first modern ML algorithm and the direct ancestor of neural networks.</p>
+
+<h3>2.1 Idea</h3>
+
+<p>Start with $\mathbf{w} = \mathbf{0}$. Loop over the data. If a point is misclassified ($y_i (\mathbf{w}^\top \mathbf{x}_i) \le 0$), <strong>rotate the hyperplane toward it</strong>:</p>
+
+<p>$$\mathbf{w} \leftarrow \mathbf{w} + y_i \mathbf{x}_i$$</p>
+
+<p>Repeat until no point is misclassified.</p>
+
+<h3>2.2 Pseudocode</h3>
+
+<pre><code>procedure Perceptron(D = {(x_i, y_i)}_{i=1..n})
+    w \u2190 0
+    repeat
+        m \u2190 0                              # misclassification counter
+        for (x_i, y_i) in D:
+            if y_i (w\u1d40 x_i) \u2264 0:            # misclassified
+                w \u2190 w + y_i x_i             # update
+                m \u2190 m + 1
+    until m == 0                            # (or iter == max)
+    return w
+</code></pre>
+
+<h3>2.3 Clean NumPy implementation</h3>
+
+<div class="codehilite">
+<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">perceptron</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    X : (n, d) features (bias already absorbed via add_bias)</span>
+<span class="sd">    y : (n,)  labels in {+1, -1}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
+        <span class="n">mistakes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">yi</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span> <span class="o">@</span> <span class="n">xi</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">w</span> <span class="o">+=</span> <span class="n">yi</span> <span class="o">*</span> <span class="n">xi</span>
+                <span class="n">mistakes</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">mistakes</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="kc">True</span>             <span class="c1"># converged</span>
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="kc">False</span>                    <span class="c1"># hit iteration cap</span>
+
+<span class="c1"># Toy example \u2014 the exercise from the PDF</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">w</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">perceptron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))]),</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;w=&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;b=&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;converged=&quot;</span><span class="p">,</span> <span class="n">ok</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h3>2.4 Worked update by hand (from the PDF)</h3>
+
+<p>Positive point $\mathbf{x}<em>1 = (1,3)$, $y</em>1 = +1$; negative point $\mathbf{x}<em>2 = (-1,4)$, $y</em>2 = -1$; $\mathbf{w}_0 = \mathbf{0}$.</p>
+
+<table>
+<thead>
+<tr>
+  <th>iter</th>
+  <th>$\mathbf{w}_t$</th>
+  <th>example</th>
+  <th>$y_i(\mathbf{w}_t^\top \mathbf{x}_i)$</th>
+  <th>mis?</th>
+  <th>$\mathbf{w}_{t+1}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>$(0,0)$</td>
+  <td>$\mathbf{x}_1,+1$</td>
+  <td>$0$</td>
+  <td>\u2705</td>
+  <td>$(0,0)+(1,3) = (1,3)$</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>$(1,3)$</td>
+  <td>$\mathbf{x}_2,-1$</td>
+  <td>$-11$</td>
+  <td>\u2705</td>
+  <td>$(1,3)-(-1,4) = (2,-1)$</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>$(2,-1)$</td>
+  <td>$\mathbf{x}_1,+1$</td>
+  <td>$-1$</td>
+  <td>\u2705</td>
+  <td>$(3,2)$</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>$(3,2)$</td>
+  <td>$\mathbf{x}_2,-1$</td>
+  <td>$-5$</td>
+  <td>\u2705</td>
+  <td>$(4,-2)$</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>$(4,-2)$</td>
+  <td>$\mathbf{x}_1,+1$</td>
+  <td>$-2$</td>
+  <td>\u2705</td>
+  <td>$(5,1)$</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td>$(5,1)$</td>
+  <td>$\mathbf{x}_2,-1$</td>
+  <td>$1$</td>
+  <td>\u274c</td>
+  <td>\u2014</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td>$(5,1)$</td>
+  <td>$\mathbf{x}_1,+1$</td>
+  <td>$8$</td>
+  <td>\u274c</td>
+  <td>\u2014</td>
+</tr>
+</tbody>
+</table>
+
+<p>Five updates, then convergence. The final $\mathbf{w}^{<em>}$ can be reconstructed as $\mathbf{w}^{</em>} = \sum_{(\mathbf{x}<em>i, y</em>i)\in M} y_i \mathbf{x}_i$ where $M$ is the multiset of mistakes \u2014 useful when you have a log of <em>which</em> examples caused updates but lost the final weights.</p>
+
+<h3>2.5 Convergence guarantee (informal proof)</h3>
+
+<p>Assume every $\|\mathbf{x}_i\| \le 1$ and a true separator $\mathbf{w}^{<em>}$ with $\|\mathbf{w}^{</em>}\| = 1$ exists. Define the <strong>margin</strong></p>
+
+<p>$$\gamma = \min_{(\mathbf{x}<em>i, y</em>i)\in D} \lvert \mathbf{x}_i^\top \mathbf{w}^{*} \rvert &gt; 0$$</p>
+
+<p>After $M$ updates:</p>
+
+<ol>
+<li><strong>Alignment grows linearly:</strong> $\mathbf{w}^\top \mathbf{w}^{<em>} \ge M \gamma$
+<em>(each update adds at least $\gamma$ because the mistaken point is at least $\gamma$ deep on the correct side of $\mathbf{w}^{</em>}$.)</em></li>
+<li><strong>Norm grows at most root-linearly:</strong> $\mathbf{w}^\top \mathbf{w} \le M$
+<em>(each update adds $2 y_i \mathbf{w}^\top \mathbf{x}<em>i &lt; 0$ plus $y</em>i^2 \|\mathbf{x}_i\|^2 \le 1$.)</em></li>
+</ol>
+
+<p>Combining via $\mathbf{w}^\top \mathbf{w}^{<em>} = \|\mathbf{w}\|\,\|\mathbf{w}^{</em>}\|\cos\theta \le \|\mathbf{w}\| \le \sqrt{M}$:</p>
+
+<p>$$M\gamma \le \sqrt{M} \quad\Longrightarrow\quad \boxed{\,M \le \tfrac{1}{\gamma^2}\,}$$</p>
+
+<p><strong>Intuition:</strong> wider margin $\Rightarrow$ faster convergence. Tiny margin $\Rightarrow$ many updates. If no separator exists ($\gamma = 0$), the perceptron loops forever.</p>
+
+<h3>2.6 Limitations</h3>
+
+<ul>
+<li><strong>Not linearly separable? Infinite loop.</strong> No noise tolerance.</li>
+<li>Finds <em>some</em> separator, not the <em>best</em> one \u2014 the answer depends on iteration order.</li>
+<li>No probability output; just a hard $\pm 1$.</li>
+</ul>
+
+<p>These three shortcomings motivate the next three modules (regression \u2192 probabilistic \u2192 optimize).</p>
+
+<hr />
+
+<h2>Module 3: Linear Regression (OLS)</h2>
+
+<h3>3.1 Modeling assumption</h3>
+
+<p>Labels are a <strong>linear function</strong> of the features plus <strong>Gaussian noise</strong>:</p>
+
+<p>$$y<em>i = \mathbf{w}^\top \mathbf{x}<em>i + \varepsilon</em>i, \qquad \varepsilon</em>i \sim \mathcal{N}(0, \sigma^2)$$</p>
+
+<p>This gives us the conditional distribution</p>
+
+<p>$$P(y_i \mid \mathbf{x}_i; \mathbf{w}) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp!\left(-\frac{(\mathbf{w}^\top \mathbf{x}<em>i - y</em>i)^2}{2\sigma^2}\right)$$</p>
+
+<h3>3.2 Maximum-likelihood derivation of squared loss</h3>
+
+<p>$$\begin{aligned}
+\mathbf{w}<em>{\text{MLE}} &amp;= \arg\max</em>{\mathbf{w}} \prod_{i=1}^n P(y<em>i \mid \mathbf{x}<em>i; \mathbf{w}) \
+                        &amp;= \arg\max</em>{\mathbf{w}} \sum</em>{i=1}^n \log P(y<em>i \mid \mathbf{x}<em>i; \mathbf{w})           &amp;&amp; \text{log turns product $\to$ sum} \
+                        &amp;= \arg\max</em>{\mathbf{w}} \sum</em>i \Bigl[\log \tfrac{1}{\sqrt{2\pi\sigma^2}} - \tfrac{(\mathbf{w}^\top \mathbf{x}<em>i - y</em>i)^2}{2\sigma^2}\Bigr] \
+                        &amp;= \arg\min_{\mathbf{w}} \frac{1}{n}\sum_{i=1}^n (\mathbf{w}^\top \mathbf{x}<em>i - y</em>i)^2 &amp;&amp; \text{drop constants, flip sign, average}
+\end{aligned}$$</p>
+
+<p>Gaussian noise assumption $\Longleftrightarrow$ mean-squared-error (MSE) loss. Not a coincidence \u2014 different noise assumptions give different losses (e.g. Laplace noise $\to$ absolute loss).</p>
+
+<p><strong>Physical intuition:</strong> treat each data point as a bead connected to the line by a spring; MSE finds the line with minimum total spring energy.</p>
+
+<h3>3.3 Closed form via matrix calculus</h3>
+
+<p>Stack rows into $\mathbf{X} \in \mathbb{R}^{n\times d}$ and labels into $\mathbf{y} \in \mathbb{R}^n$:</p>
+
+<p>$$\mathcal{L}(\mathbf{w}) = \tfrac{1}{n}\|\mathbf{X}\mathbf{w} - \mathbf{y}\|^2 = \tfrac{1}{n}\bigl(\mathbf{w}^\top \mathbf{X}^\top \mathbf{X}\mathbf{w} - 2\mathbf{w}^\top \mathbf{X}^\top \mathbf{y} + \mathbf{y}^\top \mathbf{y}\bigr)$$</p>
+
+<p>Set the gradient to zero:</p>
+
+<p>$$\nabla_{\mathbf{w}} \mathcal{L} = \tfrac{2}{n}\bigl(\mathbf{X}^\top \mathbf{X}\mathbf{w} - \mathbf{X}^\top \mathbf{y}\bigr) = 0 \quad\Longrightarrow\quad \boxed{\,\mathbf{w}_{\text{MLE}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{y}\,}$$</p>
+
+<p>This is the <strong>normal equation</strong>. It exists when $\mathbf{X}^\top \mathbf{X}$ is invertible (i.e., columns of $\mathbf{X}$ are linearly independent).</p>
+
+<h3>3.4 Python \u2014 closed form vs. <code>lstsq</code></h3>
+
+<div class="codehilite">
+<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">3</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+<span class="n">true_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">true_w</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>     <span class="c1"># Gaussian noise</span>
+
+<span class="c1"># 1. Explicit normal equation</span>
+<span class="n">w_ne</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
+
+<span class="c1"># 2. Numerically safer: solve the linear system</span>
+<span class="n">w_solve</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># 3. Best in practice: lstsq (uses SVD, handles rank deficiency)</span>
+<span class="n">w_lstsq</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">w_ne</span><span class="p">,</span> <span class="n">w_solve</span><span class="p">,</span> <span class="n">w_lstsq</span><span class="p">,</span> <span class="n">true_w</span><span class="p">]),</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p><strong>Practical tip:</strong> never invert $\mathbf{X}^\top \mathbf{X}$ in production code \u2014 use <code>np.linalg.lstsq</code> or <code>scipy.linalg.lstsq</code>. They handle rank-deficient / ill-conditioned problems gracefully.</p>
+</blockquote>
+
+<hr />
+
+<h2>Module 4: Logistic Regression</h2>
+
+<h3>4.1 From regression to classification via the sigmoid</h3>
+
+<p>Linear regression outputs any real number; classification wants a <strong>probability</strong>. Squash the linear score through the <strong>sigmoid</strong>:</p>
+
+<p>$$\sigma(z) = \frac{1}{1 + e^{-z}}$$</p>
+
+<p>$$P(y = +1 \mid \mathbf{x}; \mathbf{w}) = \sigma(\mathbf{w}^\top \mathbf{x}), \qquad P(y = -1 \mid \mathbf{x}; \mathbf{w}) = \sigma(-\mathbf{w}^\top \mathbf{x})$$</p>
+
+<p>With the sign convention $y \in {+1,-1}$ both cases fuse into one clean expression:</p>
+
+<p>$$P(y_i \mid \mathbf{x}<em>i; \mathbf{w}) = \sigma(y</em>i\,\mathbf{w}^\top \mathbf{x}<em>i) = \frac{1}{1 + \exp(-y</em>i \mathbf{w}^\top \mathbf{x}_i)}$$</p>
+
+<h3>4.2 Two elegant sigmoid identities (needed for the gradient)</h3>
+
+<ol>
+<li>$\sigma(-z) = 1 - \sigma(z)$ \u2014 guarantees $P(+1\mid\mathbf{x}) + P(-1\mid\mathbf{x}) = 1$.</li>
+<li>$\sigma'(z) = \sigma(z)\bigl(1 - \sigma(z)\bigr)$ \u2014 derivative expressible in the sigmoid itself.</li>
+</ol>
+
+<p><strong>Proof of (2)</strong> \u2014 quick chain-rule exercise:</p>
+
+<p>$$\sigma'(z) = -\frac{1}{(1 + e^{-z})^2}\cdot(-e^{-z}) = \frac{e^{-z}}{(1+e^{-z})^2} = \sigma(z)\cdot\frac{e^{-z}}{1+e^{-z}} = \sigma(z)(1 - \sigma(z))$$</p>
+
+<h3>4.3 MLE $\to$ logistic loss (cross-entropy)</h3>
+
+<p>$$\mathbf{w}<em>{\text{MLE}} = \arg\min</em>{\mathbf{w}} \sum_{i=1}^n \log!\bigl(1 + e^{-y_i \mathbf{w}^\top \mathbf{x}_i}\bigr)$$</p>
+
+<p>This function is <strong>convex</strong> but has <strong>no closed form</strong>. It behaves like a rounded-bottom bowl: quadratic near the optimum, roughly linear (hinge-like) far from it. Convex + no closed form \u2014 the classic setup for gradient descent.</p>
+
+<h3>4.4 Gradient of the logistic loss</h3>
+
+<p>Using $\sigma'(z) = \sigma(z)(1-\sigma(z))$ and $1 - \sigma(z) = \sigma(-z)$:</p>
+
+<p>$$\nabla_{\mathbf{w}} \mathcal{L}(\mathbf{w}) = -\sum_{i=1}^n \sigma(-y_i \mathbf{w}^\top \mathbf{x}<em>i)\, y</em>i \mathbf{x}_i$$</p>
+
+<p><strong>Interpretation:</strong> the weight of example $i$ in the gradient is $\sigma(-y_i \mathbf{w}^\top \mathbf{x}_i)$ \u2014 the model's <em>current probability of getting it wrong</em>. Confidently-correct points barely move $\mathbf{w}$; near-misses and misclassifications dominate. This is why logistic regression is <strong>robust to easy points</strong> and adaptive to the hard ones \u2014 unlike the perceptron, which treats every mistake identically.</p>
+
+<h3>4.5 Python \u2014 logistic regression from scratch</h3>
+
+<div class="codehilite">
+<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="c1"># Numerically stable sigmoid \u2014 avoids overflow in exp(-z) for large |z|</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">)),</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">logistic_loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logaddexp</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">z</span><span class="p">))</span>     <span class="c1"># log(1 + exp(-z)) \u2014 numerically stable</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">logistic_grad</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">train_logistic</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2000</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">logistic_grad</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">w</span>
+
+<span class="c1"># Toy 2-D data \u2014 labels in {+1, -1}</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Xpos</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=+</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">Xneg</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">Xpos</span><span class="p">,</span> <span class="n">Xneg</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">50</span><span class="p">)])</span>
+<span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">))])</span>     <span class="c1"># bias trick</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">train_logistic</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X_aug</span> <span class="o">@</span> <span class="n">w</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;train accuracy = </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">   loss = </span><span class="si">{</span><span class="n">logistic_loss</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h3>4.6 Generative vs. discriminative \u2014 Naive Bayes vs. Logistic Regression</h3>
+
+<p>Both end up with a <strong>sigmoidal</strong> conditional $P(y\mid\mathbf{x})$, but they arrive there differently:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Aspect</th>
+  <th>Naive Bayes (generative)</th>
+  <th>Logistic Regression (discriminative)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Models</td>
+  <td>$P(\mathbf{x}\mid y)$ then Bayes-flips to $P(y\mid\mathbf{x})$</td>
+  <td>$P(y\mid\mathbf{x})$ directly</td>
+</tr>
+<tr>
+  <td>Training</td>
+  <td>Counting / closed form</td>
+  <td>Gradient descent on log loss</td>
+</tr>
+<tr>
+  <td>Assumptions</td>
+  <td>Strong (feature independence, distribution family)</td>
+  <td>Weak (linear decision boundary only)</td>
+</tr>
+<tr>
+  <td>Best when</td>
+  <td>Very little data, assumptions hold</td>
+  <td>Lots of data, arbitrary feature distributions</td>
+</tr>
+<tr>
+  <td>Handles outliers</td>
+  <td>Poorly \u2014 they distort the fitted Gaussians</td>
+  <td>Well \u2014 loss re-weights hard points</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Rule of thumb:</strong> small data + trustworthy modeling \u2192 Naive Bayes. Big data + \u201cwhatever\u201d features \u2192 Logistic Regression.</p>
+
+<hr />
+
+<h2>Module 5: Gradient Descent</h2>
+
+<h3>5.1 The update rule</h3>
+
+<p>For a differentiable loss $\mathcal{L}(\mathbf{w})$:</p>
+
+<p>$$\mathbf{w} \leftarrow \mathbf{w} - \alpha \nabla \mathcal{L}(\mathbf{w})$$</p>
+
+<ul>
+<li>$\nabla \mathcal{L}$ points in the direction of <strong>steepest ascent</strong> \u2014 subtract it to go <strong>downhill</strong>.</li>
+<li>$\alpha &gt; 0$ is the <strong>learning rate</strong> (step size).</li>
+</ul>
+
+<h3>5.2 Why does it work? \u2014 Taylor argument</h3>
+
+<p>Near $\mathbf{w}$, a first-order Taylor expansion gives</p>
+
+<p>$$\mathcal{L}(\mathbf{w} + \mathbf{s}) \approx \mathcal{L}(\mathbf{w}) + \nabla \mathcal{L}(\mathbf{w})^\top \mathbf{s}$$</p>
+
+<p>Choosing $\mathbf{s} = -\alpha \nabla \mathcal{L}(\mathbf{w})$:</p>
+
+<p>$$\mathcal{L}(\mathbf{w} - \alpha \nabla \mathcal{L}) \approx \mathcal{L}(\mathbf{w}) - \alpha\,\underbrace{\|\nabla \mathcal{L}\|^2}_{\ge 0} \;&lt;\; \mathcal{L}(\mathbf{w})$$</p>
+
+<p>So as long as $\alpha$ is small enough for the Taylor approximation to hold, <strong>loss strictly decreases</strong> each step. On convex losses (linear/logistic regression), local minima <em>are</em> global minima and gradient descent converges to the optimum.</p>
+
+<h3>5.3 Choosing the learning rate</h3>
+
+<table>
+<thead>
+<tr>
+  <th>$\alpha$ too small</th>
+  <th>$\alpha$ just right</th>
+  <th>$\alpha$ too large</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Converges, but painfully slowly</td>
+  <td>Steady, monotone descent</td>
+  <td>Zig-zags across the bowl \u2014 or <strong>diverges</strong> entirely</td>
+</tr>
+</tbody>
+</table>
+
+<p>A safe schedule: $\alpha<em>t = t</em>0 / t$ (learning rate decays with each step). Large early steps for coarse progress, small later steps for fine-tuning.</p>
+
+<h3>5.4 Applied to the losses in this course</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Loss</th>
+  <th>Gradient step $\mathbf{w} \leftarrow \mathbf{w} - \alpha\,\nabla\mathcal{L}(\mathbf{w})$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>MSE (linear reg.)</td>
+  <td>$\mathbf{w} - \alpha\cdot\tfrac{2}{n}\mathbf{X}^\top(\mathbf{X}\mathbf{w} - \mathbf{y})$</td>
+</tr>
+<tr>
+  <td>Logistic</td>
+  <td>$\mathbf{w} + \alpha\cdot\tfrac{1}{n}\mathbf{X}^\top\bigl(\sigma(-y\odot \mathbf{X}\mathbf{w}) \odot \mathbf{y}\bigr)$</td>
+</tr>
+</tbody>
+</table>
+
+<h3>5.5 Toy example \u2014 minimize $f(w) = w^2$</h3>
+
+<div class="codehilite">
+<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>     <span class="k">return</span> <span class="n">w</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">grad</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>  <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">w</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="n">history</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">26</span><span class="p">):</span>
+    <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.1</span>                  <span class="c1"># try 0.001 (slow), 0.1 (good), 1.1 (diverges)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">history</span><span class="p">[:</span><span class="mi">6</span><span class="p">]],</span> <span class="s2">&quot;</span><span class="se">\u2026</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">6</span><span class="p">))</span>
+<span class="c1"># [10.0, 8.0, 6.4, 5.12, 4.096, 3.2768] \u2026 0.000472</span>
+</code></pre>
+</div>
+
+<h3>5.6 Sanity-check gradients with finite differences</h3>
+
+<p>Any time you derive a gradient by hand, verify numerically:</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">numerical_grad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">)):</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">w</span><span class="p">);</span> <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">w</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">e</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+<span class="c1"># Check logistic_grad against a numerical estimate</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">g_analytic</span> <span class="o">=</span> <span class="n">logistic_grad</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">g_numeric</span>  <span class="o">=</span> <span class="n">numerical_grad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">ww</span><span class="p">:</span> <span class="n">logistic_loss</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ww</span><span class="p">),</span> <span class="n">w</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;max abs diff:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">g_analytic</span> <span class="o">-</span> <span class="n">g_numeric</span><span class="p">)))</span>   <span class="c1"># ~1e-8</span>
+</code></pre>
+</div>
+
+<p>If the max difference is not tiny (\u226410\u207b\u2075 or so), your analytic gradient is wrong.</p>
+
+<hr />
+
+<h2>Cheat sheet \u2014 pick the right tool</h2>
+
+<pre><code>Do you want a probability?               \u2500\u252c\u2500 yes \u2192 Logistic Regression
+                                          \u2514\u2500 no  \u2192 continue
+Is the target continuous (a number)?     \u2500\u252c\u2500 yes \u2192 Linear Regression (OLS)
+                                          \u2514\u2500 no  \u2192 continue
+Is the data linearly separable
+and noise-free?                          \u2500\u252c\u2500 yes \u2192 Perceptron (fast, guaranteed)
+                                          \u2514\u2500 no  \u2192 Logistic Regression + regularization
+</code></pre>
+
+<p><strong>One-line summaries you can quote:</strong></p>
+
+<ul>
+<li><em>Perceptron:</em> fix each mistake by nudging $\mathbf{w}$ toward it. Converges in $\le 1/\gamma^2$ updates if a margin $\gamma$ exists.</li>
+<li><em>Linear regression:</em> Gaussian-noise MLE $\Rightarrow$ MSE loss $\Rightarrow$ closed form $\mathbf{w} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}$.</li>
+<li><em>Logistic regression:</em> sigmoid MLE $\Rightarrow$ log-loss (convex, no closed form) $\Rightarrow$ minimize with gradient descent.</li>
+<li><em>Gradient descent:</em> $\mathbf{w} \leftarrow \mathbf{w} - \alpha \nabla \mathcal{L}$; Taylor guarantees descent when $\alpha$ is small.</li>
+</ul>
+
+<hr />
+
+<h1>Appendix: Raw Study Notes</h1>
+
+<blockquote>
+  <p>Original bullet-point brain-dump, preserved verbatim.</p>
+</blockquote>
+
+<p>Linear Classifiers</p>
+
+<pre><code>Works with binary labels where data points of different classes can be separated by a hyperplane
+</code></pre>
+
+<p>Perceptron
+    Method to adjust the hyperplane
+    The hyperplane is initially set to w = 0
+    Fix mistakes aggressively
+    Asks was label classified correctly?  Yes=do nothing.  No=move line a little
+    w(weights) = w  +  (learning rate, usually 1) * y (label, +1, -1) * x (feature vector) 
+    perceptron update: w = w + 1 * x * y
+    Perceptron:<br />
+    def perceptron(xs, ys):
+        """
+        function w=perceptron(xs,ys);</p>
+
+<pre><code>    Returns the weight vector learned by the Perceptron classifier.
+
+    Input:
+        xs: n input vectors of d dimensions (nxd matrix)
+        ys: n labels (-1 or +1)
+
+    Output:
+        w: weight vector (d)
+        b: bias term
+    """
+    n, d = xs.shape  # So we have n input vectors with d dimensions
+    w = np.zeros(d)
+    b = 0.0
+
+    # YOUR CODE HERE
+    while True:
+        cnt = 0
+        for x, y in zip(xs,ys):
+            resp = np.dot(w,x) + b
+            if y * resp &lt;=0:
+                w = w + y * x
+                b = b + y
+                cnt += 1
+        if cnt == 0:
+            break
+    # END OF YOUR CODE
+
+    return (w, b)
+The perceptron is arguably the first algorithm to have a strong formal guarantee: If a data set is linearly separable (i.e., the two classes can be perfectly split using a hyperplane in -dimensional space), the perceptron will find a separating hyperplane in a finite number of iterations. If the data is not linearly separable, it will loop forever.
+it doesn't work if this isn't the case, i.e. one cannot place a linear line between the classes.  It is also very sensitive to noisy data
+The hyperplane is iteratively adjusted (or "tilted") using one misclassified point at a time.
+The final hyperplane perfectly separates the two classes
+Not all data sets that are linearly separable can be separated with a hyperplane that passes through the origin. For the perceptron to converge in this scenario, you must account for an offset value (or bias) that will adjust the position of your hyperplane in either a positive or negative direction.  Can update bias term (b) (make 2D become 3D)
+</code></pre>
+
+<p>Linear Regression
+    Linear regression, also often referred to as ordinary least squares (OLS), is a model similar to the perceptron classifier; however, instead of classification, it can be used for regression.
+    models the relationship between your labels (y) and the features (x) as a linear function
+    Gradually increase probability of correct labels
+    Switching to logistic regression = replace sign() with sigmoid + replace update rule with gradient descent on MLE loss
+MLE
+Comes in when you ask: “Can I turn this classification problem into a probabilistic model?”
+If you want MLE:
+    Switch to logistic regression (if currently perceptron)
+    Now you're modeling: 
+    probability of labels
+    uncertainty
+    noise</p>
+
+<p>Model Assumption
+    Data is generated from a linear function (line or hyperplane) plus Gaussian noise
+    Each observed point (x<em>iⓜ,y</em>i )is: 
+    Centered around the true linear model
+    With noise distributed as a Gaussian (normal distribution)
+Goal
+    Find weights w(the slope/hyperplane) that best explain the data
+MLE Idea
+    Maximize the probability of observing the data:
+∏<em>i▒〖P(〗 y</em>i∣x<em>i,w)
+    This means choosing wso that the observed data is most likely
+Log Trick
+    Products of probabilities are hard → take log
+    Log turns: 
+    Product → Sum
+∑<em>i▒〖log⁡P(〗 y</em>i∣x</em>i,w)</p>
+
+<p>Gaussian Likelihood
+    Each P(y<em>i∣x</em>i,w)is Gaussian:
+∝exp⁡(ⓜ-(w^T x<em>i-y</em>i )^2/(2σ^2 ))
+Simplification
+    Log of exponential cancels:
+log⁡(e^something)=something
+    Constant terms (not depending on w) are dropped
+Result
+    Maximizing likelihood becomes: 
+    Minimizing:
+∑<em>i▒( w^T x</em>i-y_i )^2</p>
+
+<p>Interpretation
+    This is the Mean Squared Error (MSE) loss
+    You are minimizing the squared differences between: 
+    prediction w^T x<em>i
+    actual label y</em>i
+Geometric View
+    Errors are vertical distances from points to line
+    Minimize sum of squared distances
+Physical Analogy
+    Points connected to line by springs
+    Find wthat minimizes total tension
+Python example</p>
+
+<h1>setup fake data</h1>
+
+<p>import numpy as np
+import matplotlib.pyplot as plt</p>
+
+<h1>Generate data</h1>
+
+<p>np.random.seed(0)
+X = np.linspace(0, 10, 50)
+true_w = 2.5
+noise = np.random.normal(0, 2, size=X.shape)</p>
+
+<p>y = true_w * X + noise</p>
+
+<h1>prediction function</h1>
+
+<p>def predict(X, w):
+return w @ X</p>
+
+<h1>MLE gives us</h1>
+
+<p>def mse<em>loss(X, y, w):
+y</em>pred = predict(X, w)
+return np.mean((y_pred - y) ** 2)</p>
+
+<h1>find the best w</h1>
+
+<p>w<em>values = np.linspace(0, 5, 100)
+losses = [mse</em>loss(X, y, w) for w in w_values]</p>
+
+<p>best<em>w = w</em>values[np.argmin(losses)]
+print("Best w:", best_w)</p>
+
+<h1>visualize</h1>
+
+<p>plt.scatter(X, y, label="Data")
+plt.plot(X, predict(X, best_w), color="red", label="Fitted line")
+plt.legend()
+plt.show()</p>
+
+<p>LOSS FUNCTION
+    It’s the mean of (dot product of weights and features − label)²
+    Single prediction
+    y<em>pred = np.dot(w, x) # w^T x
+    error = y</em>pred - y
+    loss = error ** 2
+    Whole data set
+    def mse<em>loss(X, y, w):
+    y</em>pred = X @ w # vector of predictions
+    return np.mean((y_pred - y) ** 2)</p>
+
+<p>Logistic Regression
+    Logistic regression is a linear classifier with modeling assumptions related to the multinomial Naive Bayes classifier. 
+    While the name 'Logistic Regression' suggests that it solves a regression problem, Logistic Regression actually solves a classification problem -- it only allows you to estimate the probability of a categorical label, which must not be continuous.
+     Linear Regression and Logistic Regression are not related to each other. 
+    classification algorithm that predicts: P(y=1∣x).  not just a label, but a probability.
+    Model: P(y=1∣x)=σ(wTx)
+    Where:
+    w^T x= linear score
+    σ(⋅)= sigmoid function
+    if P(y=1 | x) &gt;= 0.5:
+    predict 1
+    else:
+    predict 0</p>
+
+<pre><code>Compute a linear combination of features
+</code></pre>
+
+<p>Pass it through a squashing function (sigmoid) 
+ Output becomes a probability</p>
+
+<p>🔷 Logistic Regression (Discriminative Model)
+Discriminative model (Logistic Regression): models how to separate classes
+Logistic regression says:
+“Given this input x, what’s the probability it belongs to class 1?”
+It doesn’t try to model:
+    how x was created
+    or what features look like per class</p>
+
+<p>👉 Directly learns P(y | x)
+👉 Uses sigmoid + gradient descent
+import numpy as np</p>
+
+<h1>Sigmoid function: converts score -> probability</h1>
+
+<p>def sigmoid(z):
+return 1 / (1 + np.exp(-z))</p>
+
+<h1>Compute predictions (probabilities)</h1>
+
+<p>def predict<em>proba</em>lr(X, w):
+return sigmoid(X @ w) # linear model + sigmoid</p>
+
+<h1>Convert probability to class (0 or 1)</h1>
+
+<p>def predict<em>lr(X, w):
+probs = predict</em>proba_lr(X, w)
+return (probs &gt;= 0.5).astype(int)</p>
+
+<h1>Cross-entropy loss (MLE objective)</h1>
+
+<p>def loss_lr(X, y, w):
+z = X @ w
+return -np.mean(y * np.log(sigmoid(z)) + (1 - y) * np.log(1 - sigmoid(z)))</p>
+
+<h1>Gradient of loss</h1>
+
+<p>def gradient_lr(X, y, w):
+preds = sigmoid(X @ w)
+return X.T @ (preds - y) / len(y)</p>
+
+<h1>Train using gradient descent</h1>
+
+<p>def train_lr(X, y, lr=0.1, epochs=1000):
+w = np.zeros(X.shape[1]) # initialize weights</p>
+
+<p>for _ in range(epochs):
+grad = gradient_lr(X, y, w)
+w -= lr * grad # update step</p>
+
+<p>return w</p>
+
+<p>Sigmoid Function
+def sigmoid(z):
+return 1 / (1 + np.exp(-z))</p>
+
+<p>It converts:
+Input z Output
+very negative   ≈ 0
+0   0.5
+very positive   ≈ 1
+👉 So it maps any real number → probability (0 to 1)</p>
+
+<p>Multinomial Naive Bayes
+Instead of modeling:
+P(y∣x)</p>
+
+<p>it models:
+P(x∣y)"and" P(y)</p>
+
+<p>This is called a generative model.
+    Features are independent
+    Used for:
+    Text classification
+    Word counts</p>
+
+<h1>naive bayes prediction (conceptual)</h1>
+
+<p>score = np.log(P_y)</p>
+
+<p>for j in features:
+score += x[j] * np.log(P<em>x</em>given_y[j])</p>
+
+<h1>choose class with highest score</h1>
+
+<p>Multinomial Naive Bayes (Generative Model)
+Generative model (Naive Bayes): models how the data is produced</p>
+
+<p>👉 Learns P(x | y) and P(y)
+👉 Uses counts + probabilities (no gradient descent)
+This version assumes:
+    Inputs are counts (like word counts)
+    Often used in text classification</p>
+
+<p>import numpy as np</p>
+
+<p>class MultinomialNB:
+def <strong>init</strong>(self):
+self.class<em>log</em>prior = None # log P(y)
+self.feature<em>log</em>prob = None # log P(x_j | y)</p>
+
+<p>def fit(self, X, y):
+n<em>samples, n</em>features = X.shape
+n_classes = len(np.unique(y))</p>
+
+<h1>Initialize storage</h1>
+
+<p>self.class<em>log</em>prior = np.zeros(n<em>classes)
+self.feature</em>log<em>prob = np.zeros((n</em>classes, n_features))</p>
+
+<h1>Loop over classes</h1>
+
+<p>for c in range(n<em>classes):
+X</em>c = X[y == c] # all samples in class c</p>
+
+<h1>Compute P(y=c)</h1>
+
+<p>self.class<em>log</em>prior[c] = np.log(len(X<em>c) / n</em>samples)</p>
+
+<h1>Count features (Laplace smoothing added)</h1>
+
+<p>feature<em>counts = X</em>c.sum(axis=0) + 1
+total<em>count = feature</em>counts.sum()</p>
+
+<h1>Compute P(x_j | y=c)</h1>
+
+<p>self.feature<em>log</em>prob[c] = np.log(feature<em>counts / total</em>count)</p>
+
+<p>def predict(self, X):</p>
+
+<h1>Compute scores for each class</h1>
+
+<p>scores = []</p>
+
+<p>for c in range(len(self.class<em>log</em>prior)):</p>
+
+<h1>log P(y=c) + sum<em>j x</em>j * log P(x_j | y=c)</h1>
+
+<p>score = self.class<em>log</em>prior[c] + X @ self.feature<em>log</em>prob[c]
+scores.append(score)</p>
+
+<p>scores = np.vstack(scores).T # shape: (n<em>samples, n</em>classes)</p>
+
+<p>return np.argmax(scores, axis=1) # pick highest probability
+``</p>
+
+<p>COMPARRISON
+Step    Logistic Regression Naive Bayes
+Model   X @ w   probabilities
+Training    gradient descent    counting
+Output  sigmoid(probability)    log-probabilities
+Data type   numeric features    counts (typically)</p>
+
+<p>Use Case    Model
+Small data + text   Naive Bayes ✅
+More data, fewer assumptions    Logistic Regression ✅
+Want probabilities  Both
+Want flexibility    Logistic Regression</p>
+
+<p>Question    Naive Bayes Logistic Regression
+How is data generated?  ✅ models it ❌ ignores it
+How to classify?    via Bayes rule  directly predicts
+Learns  distributions   </p>
+
+<p>Logistic Regression:
+    Learns wdirectly by minimizing loss (MLE)
+    Flexible, fewer assumptions
+    “Let’s directly learn a function that outputs probability.”
+    “Let me directly learn weights that best predict labels.”</p>
+
+<p>Naive Bayes:
+    Computes windirectly from probabilities
+    Strong independence assumptions
+    “Let’s model how data is generated, then convert to probability.”
+    “Let me estimate how features are distributed per class, then infer the label.”</p>
+
+<p>Sigmoid
+“Convert scores into valid probabilities.”
+Logistic regression uses sigmoid to turn a linear model into probabilities, while multinomial Naive Bayes builds those probabilities from feature distributions—but both end up with similar decision boundaries.</p>
+
+<p>⚖️ Trade-offs
+Naive Bayes (Generative)
+✅ Works well with small data
+✅ Fast, simple
+❌ Strong independence assumptions</p>
+
+<p>Logistic Regression (Discriminative)
+✅ More flexible
+✅ Often better accuracy
+❌ Needs more data
+Think of it like this:</p>
+
+<p>🧠 Generative (Naive Bayes)
+class -> generates data
+   y   ->   x</p>
+
+<p>🎯 Discriminative (Logistic Regression)
+data -> predicts class
+  x  ->   y</p>
+
+<p>Gradient Descent
+    doesn't simply ask if the prediction was wrong but "how wrong?"
+    Gradient descent repeatedly adjusts weights in the direction that reduces error the fastest.
+    process tries to find the lowest loss (w = w - a * gradient where a is the learning rate, or how big the step should be).   Gradient Descent can work even when data overlaps and can use probability instead of a simple binary answer.  Some of its downsides are that it can be slower than perceptrons and one must choose the learning rate (too small can take an incredibly long time and too big it might bounce around an never find the lowest point). 
+    Gradient descent is a method to minimize a function (loss) by repeatedly stepping in the direction of steepest decrease.
+    Linear regression → minimize MSE
+    Logistic regression → minimize cross-entropy
+    But how do we actually find the best w?
+    Ecco gradient descent
+Imagine:
+    You’re standing on a mountain
+    You want to go down to the lowest point (minimum loss)
+What do you do?
+👉 Look at the slope and step downward.
+You have some loss function:
+L(w)</p>
+
+<p>Gradient descent updates:
+w=w-η⋅∇L(w)</p>
+
+<p>Where:
+    ∇L(w): gradient (slope)
+    η: learning rate (step size)</p>
+
+<p>🔑 Why subtract the gradient?
+    Gradient points uphill
+    You want to go downhill
+So:
+"new " w="old " w-"step"</p>
+
+<p>example
+import numpy as np</p>
+
+<p>def f(w):
+return w**2</p>
+
+<p>def grad_f(w):
+return 2*w # derivative of w^2</p>
+
+<p>w = 10 # start far from minimum
+lr = 0.1 # learning rate</p>
+
+<p>for i in range(20):
+w = w - lr * grad_f(w)
+print(f"Step {i}, w = {w}")</p>
+
+<p>This converges toward: w = 0</p>
+
+<p>APPLY TO LINEAR REGRESSION
+def gradient(X, y, w):
+n = len(y)
+return (2/n) * X.T @ (X @ w - y)</p>
+
+<p>def train<em>linear</em>regression(X, y, lr=0.01, epochs=1000):
+w = np.zeros(X.shape[1])</p>
+
+<p>for _ in range(epochs):
+grad = gradient(X, y, w)
+w -= lr * grad # gradient descent step</p>
+
+<p>return w</p>
+
+<p>Applying to Logistic Regression
+Loss from MLE
+def sigmoid(z):
+return 1 / (1 + np.exp(-z))</p>
+
+<p>def gradient_logistic(X, y, w):
+preds = sigmoid(X @ w)
+return X.T @ (preds - y) / len(y)</p>
+
+<p>def train_logistic(X, y, lr=0.1, epochs=1000):
+w = np.zeros(X.shape[1])</p>
+
+<p>for _ in range(epochs):
+grad = gradient_logistic(X, y, w)
+w -= lr * grad</p>
+
+<p>return w</p>
+
+<p>🔗 Connecting to Everything You've Learned
+You already know:
+MLE →
+gives loss
+Linear regression →
+MSE
+Logistic regression →
+cross-entropy</p>
+
+<p>Gradient Descent →
+👉 actually minimizes those losses</p>
+
+<p>🧠 Full Pipeline
+Assumption → (MLE) → Loss → (Gradient Descent) → Weights
+Example:
+Gaussian noise → MSE → Gradient descent → Linear regression solution</p>
+
+<p>🔥 Key Insight
+👉 Gradient descent is not model-specific
+It works for:
+    linear regression
+    logistic regression
+    neural networks
+    almost everything in ML</p>
+
+<p>Step    Linear Regression   Logistic Regression Perceptron
+Problem Predict number  Predict probability Separate classes
+Output  Continuous  Probability + class Class
+Model   w^T x   σ(w^T x)    sign(w^T x)
+Loss    MSE Cross-entropy (MLE) Mistake-driven
+Training    Closed form / GD    Gradient descent    Updates on errors</p>

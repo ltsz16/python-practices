@@ -1,0 +1,99 @@
+<h1>Mid-Level Python Evaluation</h1>
+
+<h2>Goal</h2>
+
+<p>Measure practical Python skills for developers who can code but are still developing production-ready habits.</p>
+
+<h2>Format</h2>
+
+<ul>
+<li>10-minute concept quiz</li>
+<li>2 coding exercises</li>
+<li>1 debugging task</li>
+<li>1 scenario-based challenge</li>
+</ul>
+
+<h2>Topics</h2>
+
+<ul>
+<li>functions with return values</li>
+<li>dictionaries and lists</li>
+<li>file I/O and parsing</li>
+<li>exceptions and validation</li>
+<li>classes and object usage</li>
+<li>basic testing mindset</li>
+<li>working with formatted data</li>
+</ul>
+
+<h2>Sample questions</h2>
+
+<ol>
+<li>What is the difference between a list comprehension and a loop?</li>
+<li>Why is <code>with open(...)</code> preferred over <code>open(...)</code> without a context manager?</li>
+<li>What is a dictionary key used for?</li>
+<li>How can you validate user input before processing it?</li>
+<li>What is a simple way to handle invalid data in a loop?</li>
+<li>What is the benefit of writing tests for a function?</li>
+</ol>
+
+<h2>Coding tasks</h2>
+
+<h3>Task 1: Average values from a file</h3>
+
+<div class="codehilite">
+<pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">average_from_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span> <span class="k">if</span> <span class="n">count</span> <span class="k">else</span> <span class="mi">0</span>
+</code></pre>
+</div>
+
+<h3>Task 2: Build a dictionary from names</h3>
+
+<div class="codehilite">
+<pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">name_lengths</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre>
+</div>
+
+<h2>Debugging task</h2>
+
+<p>Fix this function so it handles empty strings and invalid values gracefully:</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">normalize_name</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<h2>Scenario challenge</h2>
+
+<p>Create a function that reads a list of records and removes any invalid row before saving a cleaned result.</p>
+
+<h2>Scoring emphasis</h2>
+
+<ul>
+<li>correctness under edge cases</li>
+<li>readability and naming</li>
+<li>use of validation</li>
+<li>clean handling of file operations</li>
+</ul>
+
+<h2>Training priority</h2>
+
+<p>The mid-level version should surface gaps in:
+- data validation
+- reusable functions
+- handling edge cases
+- file parsing
+- working with structured data</p>

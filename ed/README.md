@@ -2,22 +2,22 @@
 
 ## Self-Evaluation
 * [Python Test](evaluation/python_exam.html) - Test your Python knowledge
-* [Junior Review](evaluation/junior.md) - Junior level assessment
-* [Mid-level Review](evaluation/mid.md) - Intermediate level assessment
-* [Senior Review](evaluation/senior.md) - Advanced level assessment
+* [Junior Review](evaluation/junior.html) - Junior level assessment
+* [Mid-level Review](evaluation/mid.html) - Intermediate level assessment
+* [Senior Review](evaluation/senior.html) - Advanced level assessment
 
 ## Learning Python Basics
-* [Basics](python_course/python_basic_overview.md)
-* [Advanced](python_course/python_adv_overview.md)
+* [Basics](python_course/python_basic_overview.html)
+* [Advanced](python_course/python_adv_overview.html)
 * [Data Examples](python_course/11-Etc/demo/pandas_data.html) - Practical data handling with pandas
-* [Data Science](data_sci/python_data_sci.md)
-* [AI](ai/python_ai_overview.md)
+* [Data Science](data_sci/python_data_sci.html)
+* [AI](ai/python_ai_overview.html)
 
 ## Course Materials & Notebooks
 
 ### CIS532: Probability & Statistics
 * [Baby Name Classifier](CIS532%20prod%20distribution/Baby_Name_Classifier.html) - Interactive Bayesian classifier demo
-* [Course Resources](CIS532%20prod%20distribution/overview.md)
+* [Course Resources](CIS532%20prod%20distribution/overview.html)
 
 ### CIS533: Linear Classifiers & Regression
 * [Linear Regression Demo](CIS533%20linear%20classifiers/Linear_Regression_Demo.html) - Regression fundamentals
@@ -25,19 +25,19 @@
 * [Spam Email Classifier - Part 1](CIS533%20linear%20classifiers/Spam_Email_Classifier_Part_One.html) - Logistic regression basics
 * [Spam Email Classifier - Part 2](CIS533%20linear%20classifiers/Spam_Email_Classifier_Part_Two.html) - Feature engineering
 * [Spam Email Classifier - Part 3](CIS533%20linear%20classifiers/Spam_Email_Classifier_Part_Three.html) - Model optimization
-* [Course Resources](CIS533%20linear%20classifiers/overview.md)
+* [Course Resources](CIS533%20linear%20classifiers/overview.html)
 
 ### CIS534: Decision Trees & Ensemble Methods
 * [CART Algorithm](CIS534%20decision%20tree/CART.html) - Classification and regression trees
 * [Cross Validation](CIS534%20decision%20tree/Cross_Validation.html) - Model evaluation techniques
 * [Data Science in the Wild](CIS534%20decision%20tree/Data_Science_in_the_Wild.html) - Real-world applications
-* [Course Resources](CIS534%20decision%20tree/overview.md)
+* [Course Resources](CIS534%20decision%20tree/overview.html)
 
 ### CIS535: Model Debugging & Ensemble Methods
 * [Bagging](CIS535%20Debugging/Bagging.html) - Bootstrap aggregating
 * [Boosting](CIS535%20Debugging/Boosting.html) - Gradient boosting techniques
 * [Generalization Error](CIS535%20Debugging/Generalization_Error.html) - Understanding model performance
-* [Course Resources](CIS535%20Debugging/) - Additional materials
+* [Course Resources](CIS535%20Debugging/overview.html) - Additional materials
 
 ### CIS536: Support Vector Machines
 * [Linear SVM](CIS536%20SVM/Linear_SVM.html) - Support vector machine fundamentals
